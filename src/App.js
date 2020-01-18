@@ -102,7 +102,7 @@ const App = () => {
         </h1>
         {loggedIn && loggedIn
           ? pictures.map(picture => {
-            return <a href={picture.permalink}><img key={picture.id} src={picture.media_url} alt={picture.caption} /></a>
+            return <a href={picture.permalink}><img width='200' height='200'key={picture.id} src={picture.media_url} alt={picture.caption} /></a>
           })
           // ? <p>Logged in</p>
           : <button onClick={() => getAuthWindow()}>Login</button>
