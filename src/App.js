@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import Popup from "reactjs-popup";
 import { Route } from 'react-router-dom';
 
 const App = (props) => {
