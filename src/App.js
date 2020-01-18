@@ -4,7 +4,7 @@ import axios from "axios";
 const qs = require("query-string");
 
 const App = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState();
 
   const getAuthWindow = () => {
     axios
@@ -77,7 +77,7 @@ const App = () => {
             🔥
           </span>
         </h1>
-        {loggedIn ? (
+        {loggedIn && loggedIn ? (
           <p>You are logged in :)</p>
         ) : (
           <button onClick={() => getAuthWindow()}>Login</button>
