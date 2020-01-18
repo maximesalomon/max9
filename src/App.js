@@ -5,6 +5,7 @@ const qs = require("query-string");
 
 const App = () => {
   const [loggedIn, setLoggedIn] = useState();
+  const [pictures, setPictures] = useState([])
 
   const getAuthWindow = () => {
     axios
@@ -46,15 +47,37 @@ const App = () => {
 
     axios
       .post(url, qs.stringify(requestBody), config)
-      .then(function(response) {
-        localStorage.setItem("access_token", response.data.access_token);
-        localStorage.setItem("user_id", response.data.user_id);
+      .then(res => {
+        localStorage.setItem("access_token", res.data.access_token);
+        localStorage.setItem("user_id", res.data.user_id);
         setLoggedIn(true)
+      })
+      .then(() => {
+        getPictures()
       })
       .catch(function(error) {
         console.log(error);
+        
       });
   };
+
+  const getPictures = () => {
+    const access_token = localStorage.getItem("access_token")
+    axios
+      .get("https://graph.instagram.com/me/media", {
+        params: {
+          fields: "id,permalink,caption",
+          access_token: access_token
+        }
+      })
+      .then(res => {
+        console.log(res.data)
+        setPictures(res.data)
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 
   const getLocalStorageToken = () => {
     if(localStorage.getItem("access_token")) {
@@ -77,11 +100,12 @@ const App = () => {
             🔥
           </span>
         </h1>
-        {loggedIn && loggedIn ? (
-          <p>You are logged in :)</p>
-        ) : (
-          <button onClick={() => getAuthWindow()}>Login</button>
-        )}
+        {loggedIn && loggedIn
+          ? pictures.map(picture => {
+            return <img key={picture.id} src={picture.permalink} alt={picture.caption} />
+          })
+          : <button onClick={() => getAuthWindow()}>Login</button>
+        }
       </div>
     </UserContext.Provider>
   );
