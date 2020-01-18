@@ -9,7 +9,7 @@ const App = (props) => {
     axios.get('https://api.instagram.com/oauth/authorize', {
       params: {
       client_id: '814423029033574',
-      redirect_uri: 'https://croissant.io',
+      redirect_uri: 'https://wonderful-wozniak-d9d424.netlify.com/',
       scope: 'user_profile,user_media',
       response_type: 'code'
     }})
