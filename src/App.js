@@ -24,8 +24,8 @@ const App = () => {
   }
 
   const getToken = () => {
-    const token = localStorage.getItem("token");
-    if (token) {
+    const queryString = window.location.search;
+    const tempToken = queryString.slice(6);
 
       const url = 'https://api.instagram.com/oauth/access_token'
 
@@ -34,7 +34,7 @@ const App = () => {
             grant_type: 'authorization_code',
             redirect_uri: 'https://wonderful-wozniak-d9d424.netlify.com/',
             client_secret: '84b5a7856a880e70e68ba4ee83afe0c4',
-            code: token
+            code: tempToken
       }
 
       const config = {
@@ -45,19 +45,19 @@ const App = () => {
 
       axios.post(url, qs.stringify(requestBody), config)
       .then(function (response) {
-        console.log(response);
+        console.log(response.data.access_token);
+        localStorage.setItem("access_token", response.data.access_token)
+        localStorage.setItem("user_id", response.data.user_id)
       })
       .catch(function (error) {
         console.log(error);
       });
-      // setLoggedIn(true)
-    } else {
-      const queryString = window.location.search;
-      const token = queryString.slice(6);
-      token && localStorage.setItem("token", token)
-      token && setLoggedIn(true)
     }
   }
+
+  // const queryString = window.location.search;
+  // const tempToken = queryString.slice(6);
+  // tempToken && localStorage.setItem("temToken", tempToken)
 
   useEffect(() => {
     getToken()
