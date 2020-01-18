@@ -2,14 +2,15 @@ import React from 'react';
 import axios from 'axios';
 
 const getToken = () => {
-  axios.post('https://api.instagram.com/oauth/authorize', {
+  axios.get('https://api.instagram.com/oauth/authorize', {
+    params: {
     client_id: '814423029033574',
     redirect_uri: 'https://croissant.io',
     scope: 'user_profile,user_media',
     response_type: 'code'
-  })
+  }})
   .then(res => {
-    console.log(res);
+    console.log(res.data);
   })
   .catch(err => {
     console.log(err);
