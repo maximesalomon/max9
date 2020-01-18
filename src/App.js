@@ -66,7 +66,7 @@ const App = () => {
     axios
       .get("https://graph.instagram.com/me/media", {
         params: {
-          fields: "id,permalink,caption",
+          fields: "id,permalink,caption,media_url",
           access_token: access_token
         }
       })
@@ -102,7 +102,7 @@ const App = () => {
         </h1>
         {loggedIn && loggedIn
           ? pictures.map(picture => {
-            return <img key={picture.id} src={picture.permalink} alt={picture.caption} />
+            return <a href={picture.permalink}><img key={picture.id} src={picture.media_url} alt={picture.caption} /></a>
           })
           // ? <p>Logged in</p>
           : <button onClick={() => getAuthWindow()}>Login</button>
