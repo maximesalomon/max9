@@ -50,15 +50,12 @@ const App = () => {
         console.log(response.data.access_token);
         localStorage.setItem("access_token", response.data.access_token);
         localStorage.setItem("user_id", response.data.user_id);
+        setLoggedIn(true)
       })
       .catch(function(error) {
         console.log(error);
       });
   };
-
-  // const queryString = window.location.search;
-  // const tempToken = queryString.slice(6);
-  // tempToken && localStorage.setItem("temToken", tempToken)
 
   useEffect(() => {
     getToken();
