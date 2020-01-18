@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 
-const App = (props) => {
-  const getToken = () => {
+const App = () => {
+
+  const getAuthWindow = () => {
     axios.get('https://api.instagram.com/oauth/authorize', {
       params: {
       client_id: '1458454804333593',
@@ -18,10 +19,20 @@ const App = (props) => {
     });
   }
 
+  const getToken = () => {
+    const queryString = window.location.search;
+    const token = queryString.slice(6);
+    token && localStorage.setItem("token", token)
+  }
+
+  useEffect(() => {
+    getToken()
+  }, [])
+
   return (
     <div className="App">
       <h1>Max9 <span role="img" aria-label="fire emoji">🔥</span></h1>
-      <button onClick={() => getToken()}>Login</button>
+      <button onClick={() => getAuthWindow()}>Login</button>
     </div>
   );
 }
