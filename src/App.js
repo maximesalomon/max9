@@ -71,8 +71,8 @@ const App = () => {
         }
       })
       .then(res => {
-        console.log(res.data)
-        setPictures(res.data)
+        console.log(res.data.data)
+        setPictures(res.data.data)
       })
       .catch(err => {
         console.log(err);
@@ -104,6 +104,7 @@ const App = () => {
           ? pictures.map(picture => {
             return <img key={picture.id} src={picture.permalink} alt={picture.caption} />
           })
+          // ? <p>Logged in</p>
           : <button onClick={() => getAuthWindow()}>Login</button>
         }
       </div>
