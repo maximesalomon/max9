@@ -24,7 +24,7 @@ const App = () => {
       });
   };
 
-  const getToken = () => {
+  const getAccesToken = () => {
     const queryString = window.location.search;
     const tempToken = queryString.slice(6);
 
@@ -47,7 +47,6 @@ const App = () => {
     axios
       .post(url, qs.stringify(requestBody), config)
       .then(function(response) {
-        console.log(response.data.access_token);
         localStorage.setItem("access_token", response.data.access_token);
         localStorage.setItem("user_id", response.data.user_id);
         setLoggedIn(true)
@@ -57,8 +56,16 @@ const App = () => {
       });
   };
 
+  const getLocalStorageToken = () => {
+    if(localStorage.getItem("access_token")) {
+      setLoggedIn(true)
+    } else {
+      getAccesToken()
+    }
+  }
+
   useEffect(() => {
-    getToken();
+    getLocalStorageToken();
   }, []);
 
   return (
