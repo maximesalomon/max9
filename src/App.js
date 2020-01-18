@@ -24,7 +24,20 @@ const App = () => {
 
   const getToken = () => {
     if (localStorage.getItem("token")) {
-      setLoggedIn(true)
+      axios.post('https://api.instagram.com/oauth/access_token', null, {
+        client_id: '1458454804333593',
+        grant_type: 'authorization_code',
+        redirect_uri: 'https://wonderful-wozniak-d9d424.netlify.com/',
+        client_secret: '84b5a7856a880e70e68ba4ee83afe0c4',
+        code: 'AQDYFt-OHUXLQcUXCizNGrOwoZMZaM21x6youHV9dZ8j5iH4RilW_lqi7C6iedWoiWXRz2fl_Qcmx_ojV3sdPsAvVg9o5XhomkIhaFp6P0s-QhHOYzvz2DAD7sslCawEPMjG3pPdrwDTqRbmYnE6BdVZ9FOypGYc_ccfIKKSsiDzRr-CkZXp82ScDm7TaOTHeP8ZE-Y8TLsjGic8MfnQggwSIOrwqtMOWN5DuNg3X9uhZQ#_'
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+      // setLoggedIn(true)
     } else {
       const queryString = window.location.search;
       const token = queryString.slice(6);
