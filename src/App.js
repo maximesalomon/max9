@@ -8,7 +8,7 @@ const App = (props) => {
   const getToken = () => {
     axios.get('https://api.instagram.com/oauth/authorize', {
       params: {
-      client_id: '814423029033574',
+      client_id: '1458454804333593',
       redirect_uri: 'https://wonderful-wozniak-d9d424.netlify.com/',
       scope: 'user_profile,user_media',
       response_type: 'code'
