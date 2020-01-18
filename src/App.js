@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import axios from 'axios';
-import { Route } from 'react-router-dom';
 
 const App = (props) => {
-  const [IGURL, setIGURL] = useState()
   const getToken = () => {
     axios.get('https://api.instagram.com/oauth/authorize', {
       params: {
@@ -13,8 +11,7 @@ const App = (props) => {
       response_type: 'code'
     }})
     .then(res => {
-      console.log(res.request.responseURL);
-      setIGURL(res.request.responseURL)
+      window.location.href = res.request.responseURL
     })
     .catch(err => {
       console.log(err);
@@ -25,7 +22,6 @@ const App = (props) => {
     <div className="App">
       <h1>Max9 <span role="img" aria-label="fire emoji">🔥</span></h1>
       <button onClick={() => getToken()}>Login</button>
-      <a href={IGURL}><button>Go to Instagram to login</button></a>
     </div>
   );
 }
