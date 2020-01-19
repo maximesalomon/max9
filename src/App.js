@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { UserContext } from "./contexts/UserContext";
 import axios from "axios";
 import styled from 'styled-components';
+import mergeImages from 'merge-images';
 const qs = require("query-string");
 
 const App = () => {
@@ -81,6 +82,7 @@ const App = () => {
   const getLocalStorageToken = () => {
     if (localStorage.getItem("access_token")) {
       setLoggedIn(true);
+      getPictures()
     } else {
       getAccesToken();
     }
@@ -126,9 +128,10 @@ const App = () => {
 };
 
 const Pics = styled.div`
+  margin: 0 auto;
+  width: 600px;
   display: flex;
   flex-wrap: wrap;
-  width: 600px;
 `
 
 const Pic = styled.div`
