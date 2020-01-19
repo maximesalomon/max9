@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { UserContext } from "./contexts/UserContext";
 import axios from "axios";
-import styled from 'styled-components';
+import styled from "styled-components";
 // import mergeImages from 'merge-images';
 const qs = require("query-string");
 
@@ -67,7 +67,7 @@ const App = () => {
     axios
       .get("https://graph.instagram.com/me/media", {
         params: {
-          fields: "id,timestamp,media_url,permalink,caption",
+          fields: "id,timestamp,media_url,permalink,caption,likes,liked_by",
           access_token: access_token
         }
       })
@@ -82,17 +82,17 @@ const App = () => {
   const getLocalStorageToken = () => {
     if (localStorage.getItem("access_token")) {
       setLoggedIn(true);
-      getPictures()
+      getPictures();
     } else {
       getAccesToken();
     }
   };
 
   const deleteUserAuth = () => {
-    localStorage.removeItem("access_token")
-    localStorage.removeItem("user_id")
-    setLoggedIn(false)
-  }
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("user_id");
+    setLoggedIn(false);
+  };
 
   useEffect(() => {
     getLocalStorageToken();
@@ -107,30 +107,29 @@ const App = () => {
             🔥
           </span>
         </Max9>
-          {loggedIn && loggedIn ? (
-            <Pics>
-              {
-                pictures.slice(0, 9).map(pic => {
-                  return (
-                    <Pic>
-                      <a key={pic.id} href={pic.permalink}>
-                        <img
-                          width="200"
-                          height="200"
-                          src={pic.media_url}
-                          alt={pic.caption}
-                        />
-                      </a>
-                    </Pic>
-                  )})
-              }
-              <button onClick={() => deleteUserAuth()}>Logout</button>
-            </Pics>
-          ) : (
-            <Pics>
-              <button onClick={() => getAuthWindow()}>Login</button>
-            </Pics>
-          )}
+        {loggedIn && loggedIn ? (
+          <Pics>
+            {pictures.slice(0, 9).map(pic => {
+              return (
+                <Pic>
+                  <a key={pic.id} href={pic.permalink}>
+                    <img
+                      width="200"
+                      height="200"
+                      src={pic.media_url}
+                      alt={pic.caption}
+                    />
+                  </a>
+                </Pic>
+              );
+            })}
+            <button onClick={() => deleteUserAuth()}>Logout</button>
+          </Pics>
+        ) : (
+          <Pics>
+            <button onClick={() => getAuthWindow()}>Login</button>
+          </Pics>
+        )}
       </div>
     </UserContext.Provider>
   );
@@ -139,19 +138,19 @@ const App = () => {
 const Max9 = styled.h1`
   text-align: center;
   margin: 0 auto;
-`
+`;
 
 const Pics = styled.div`
   margin: 0 auto;
   width: 600px;
   display: flex;
   flex-wrap: wrap;
-`
+`;
 
 const Pic = styled.div`
   flex-grow: 1;
   width: 33%;
   height: 200px;
-`
+`;
 
 export default App;
