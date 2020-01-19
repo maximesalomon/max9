@@ -88,6 +88,11 @@ const App = () => {
     }
   };
 
+  const deleteUserAuth = () => {
+    localStorage.removeItem("access_token")
+    localStorage.removeItem("user_id")
+  }
+
   useEffect(() => {
     getLocalStorageToken();
   }, []);
@@ -101,27 +106,29 @@ const App = () => {
             🔥
           </span>
         </Max9>
-        <Pics>
           {loggedIn && loggedIn ? (
             pictures.slice(0, 9).map(pic => {
               return (
-                <Pic>
-                  <a key={pic.id} href={pic.permalink}>
-                    <img
-                      width="200"
-                      height="200"
-                      src={pic.media_url}
-                      alt={pic.caption}
-                    />
-                  </a>
-                </Pic>
+                <Pics>
+                  <Pic>
+                    <a key={pic.id} href={pic.permalink}>
+                      <img
+                        width="200"
+                        height="200"
+                        src={pic.media_url}
+                        alt={pic.caption}
+                      />
+                    </a>
+                  </Pic>
+                <button onClick={() => deleteUserAuth()}>Logout</button>
+                </Pics>
               );
             })
           ) : (
-            // ? <p>Logged in</p>
-            <button onClick={() => getAuthWindow()}>Login</button>
+            <Pics>
+              <button onClick={() => getAuthWindow()}>Login</button>
+            </Pics>
           )}
-        </Pics>
       </div>
     </UserContext.Provider>
   );
