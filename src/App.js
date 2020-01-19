@@ -91,6 +91,7 @@ const App = () => {
   const deleteUserAuth = () => {
     localStorage.removeItem("access_token")
     localStorage.removeItem("user_id")
+    setLoggedIn(false)
   }
 
   useEffect(() => {
