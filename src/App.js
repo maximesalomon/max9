@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { UserContext } from "./contexts/UserContext";
 import axios from "axios";
 import styled from 'styled-components';
-import mergeImages from 'merge-images';
+// import mergeImages from 'merge-images';
 const qs = require("query-string");
 
 const App = () => {
@@ -14,7 +14,7 @@ const App = () => {
       .get("https://api.instagram.com/oauth/authorize", {
         params: {
           client_id: "1458454804333593",
-          redirect_uri: "https://wonderful-wozniak-d9d424.netlify.com/",
+          redirect_uri: "https://max9.netlify.com/",
           scope: "user_profile,user_media",
           response_type: "code"
         }
@@ -36,7 +36,7 @@ const App = () => {
     const requestBody = {
       client_id: "1458454804333593",
       grant_type: "authorization_code",
-      redirect_uri: "https://wonderful-wozniak-d9d424.netlify.com/",
+      redirect_uri: "https://max9.netlify.com/",
       client_secret: "84b5a7856a880e70e68ba4ee83afe0c4",
       code: tempToken
     };
