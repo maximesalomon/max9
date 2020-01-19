@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { UserContext } from "./contexts/UserContext";
 import axios from "axios";
+import styled from 'styled-components';
 const qs = require("query-string");
 
 const App = () => {
   const [loggedIn, setLoggedIn] = useState();
-  const [pictures, setPictures] = useState([])
+  const [pictures, setPictures] = useState([]);
 
   const getAuthWindow = () => {
     axios
@@ -50,42 +51,40 @@ const App = () => {
       .then(res => {
         localStorage.setItem("access_token", res.data.access_token);
         localStorage.setItem("user_id", res.data.user_id);
-        setLoggedIn(true)
+        setLoggedIn(true);
       })
       .then(() => {
-        getPictures()
+        getPictures();
       })
       .catch(function(error) {
         console.log(error);
-        
       });
   };
 
   const getPictures = () => {
-    const access_token = localStorage.getItem("access_token")
+    const access_token = localStorage.getItem("access_token");
     axios
       .get("https://graph.instagram.com/me/media", {
         params: {
-          fields: "id,permalink,caption,media_url",
+          fields: "id,timestamp,media_url,permalink,caption",
           access_token: access_token
         }
       })
       .then(res => {
-        console.log(res.data.data)
-        setPictures(res.data.data)
+        setPictures(res.data.data);
       })
       .catch(err => {
         console.log(err);
       });
-  }
+  };
 
   const getLocalStorageToken = () => {
-    if(localStorage.getItem("access_token")) {
-      setLoggedIn(true)
+    if (localStorage.getItem("access_token")) {
+      setLoggedIn(true);
     } else {
-      getAccesToken()
+      getAccesToken();
     }
-  }
+  };
 
   useEffect(() => {
     getLocalStorageToken();
@@ -100,16 +99,42 @@ const App = () => {
             🔥
           </span>
         </h1>
-        {loggedIn && loggedIn
-          ? pictures.map(picture => {
-            return <a href={picture.permalink}><img width='200' height='200'key={picture.id} src={picture.media_url} alt={picture.caption} /></a>
-          })
-          // ? <p>Logged in</p>
-          : <button onClick={() => getAuthWindow()}>Login</button>
-        }
+        <Pics>
+          {loggedIn && loggedIn ? (
+            pictures.map(pic => {
+              return (
+                <Pic>
+                  <a key={pic.id} href={pic.permalink}>
+                    <img
+                      width="200"
+                      height="200"
+                      src={pic.media_url}
+                      alt={pic.caption}
+                    />
+                  </a>
+                </Pic>
+              );
+            })
+          ) : (
+            // ? <p>Logged in</p>
+            <button onClick={() => getAuthWindow()}>Login</button>
+          )}
+        </Pics>
       </div>
     </UserContext.Provider>
   );
 };
+
+const Pics = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 600px;
+`
+
+const Pic = styled.div`
+  flex-grow: 1;
+  width: 33%;
+  height: 200px;
+`
 
 export default App;
