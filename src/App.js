@@ -101,7 +101,7 @@ const App = () => {
         </h1>
         <Pics>
           {loggedIn && loggedIn ? (
-            pictures.map(pic => {
+            pictures.slice(0, 9).map(pic => {
               return (
                 <Pic>
                   <a key={pic.id} href={pic.permalink}>
