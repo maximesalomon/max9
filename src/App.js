@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { UserContext } from "./contexts/UserContext";
 import axios from "axios";
 import styled from "styled-components";
+import Moment from 'react-moment';
 // import mergeImages from 'merge-images';
 const qs = require("query-string");
 
@@ -111,6 +112,7 @@ const App = () => {
         {loggedIn && loggedIn ? (
           <Pics>
             {pictures.slice(0, 9).map(pic => {
+              console.log(<Moment format="DD/MM/YYYY">{pic.timestamp}</Moment>)
               return (
                 <Pic>
                   <a key={pic.id} href={pic.permalink}>
