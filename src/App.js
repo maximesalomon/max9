@@ -64,9 +64,8 @@ const App = () => {
 
   const getPictures = () => {
     const access_token = localStorage.getItem("access_token");
-    const user_id = localStorage.getItem("user_id");
     axios
-      .get("https://graph.instagram.com/" + {user_id} +"/media", {
+      .get("https://graph.instagram.com/me/media", {
         params: {
           fields: "id,timestamp,media_url,permalink,caption",
           access_token: access_token
