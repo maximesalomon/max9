@@ -73,6 +73,7 @@ const App = () => {
       })
       .then(res => {
         setPictures(res.data.data);
+        console.log(res.data.data)
       })
       .catch(err => {
         console.log(err);
