@@ -107,23 +107,24 @@ const App = () => {
           </span>
         </Max9>
           {loggedIn && loggedIn ? (
-            pictures.slice(0, 9).map(pic => {
-              return (
-                <Pics>
-                  <Pic>
-                    <a key={pic.id} href={pic.permalink}>
-                      <img
-                        width="200"
-                        height="200"
-                        src={pic.media_url}
-                        alt={pic.caption}
-                      />
-                    </a>
-                  </Pic>
-                <button onClick={() => deleteUserAuth()}>Logout</button>
-                </Pics>
-              );
-            })
+            <Pics>
+              {
+                pictures.slice(0, 9).map(pic => {
+                  return (
+                    <Pic>
+                      <a key={pic.id} href={pic.permalink}>
+                        <img
+                          width="200"
+                          height="200"
+                          src={pic.media_url}
+                          alt={pic.caption}
+                        />
+                      </a>
+                    </Pic>
+                  )})
+              }
+              <button onClick={() => deleteUserAuth()}>Logout</button>
+            </Pics>
           ) : (
             <Pics>
               <button onClick={() => getAuthWindow()}>Login</button>
