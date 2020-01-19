@@ -95,12 +95,12 @@ const App = () => {
   return (
     <UserContext.Provider value={{ loggedIn, setLoggedIn }}>
       <div className="App">
-        <h1>
+        <Max9>
           Max9{" "}
           <span role="img" aria-label="fire emoji">
             🔥
           </span>
-        </h1>
+        </Max9>
         <Pics>
           {loggedIn && loggedIn ? (
             pictures.slice(0, 9).map(pic => {
@@ -126,6 +126,11 @@ const App = () => {
     </UserContext.Provider>
   );
 };
+
+const Max9 = styled.h1`
+  text-align: center;
+  margin: 0 auto;
+`
 
 const Pics = styled.div`
   margin: 0 auto;
