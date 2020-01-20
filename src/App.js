@@ -71,7 +71,7 @@ const App = () => {
     axios
       .get("https://graph.instagram.com/me/media", {
         params: {
-          fields: "id,timestamp,media_url,permalink,caption",
+          fields: "id,timestamp,media_type,media_url,thumbnail_url,permalink,caption",
           access_token: access_token
         }
       })
