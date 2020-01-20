@@ -58,6 +58,9 @@ const App = () => {
       .then(() => {
         getPictures();
       })
+      .then(() => {
+        getLongLivedAccessToken()
+      })
       .catch(function(error) {
         console.log(error);
       });
@@ -74,6 +77,25 @@ const App = () => {
       })
       .then(res => {
         setPictures(res.data.data);
+        console.log(res.data)
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  const getLongLivedAccessToken = () => {
+    const access_token = localStorage.getItem("access_token");
+    axios
+      .get("https://graph.instagram.com/access_token", {
+        params: {
+          grant_type: "ig_exchange_token",
+          client_secret: "84b5a7856a880e70e68ba4ee83afe0c4",
+          access_token: access_token
+        }
+      })
+      .then(res => {
+        localStorage.setItem("access_token", res.data.access_token);
         console.log(res.data)
       })
       .catch(err => {
