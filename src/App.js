@@ -133,7 +133,7 @@ const App = () => {
         </Max9>
         {loggedIn && loggedIn ? (
           <Pics>
-            {pictures.slice(0, 9).map(pic => {
+            {pictures.slice(0, 15).map(pic => {
               console.log(moment(pic.timestamp).format("MMM Do YY"));
               return (
                 <Pic>
