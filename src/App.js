@@ -96,7 +96,7 @@ const App = () => {
       })
       .then(res => {
         localStorage.setItem("access_token", res.data.access_token);
-        console.log(res.data)
+        console.log(res.data.data)
       })
       .catch(err => {
         console.log(err);
@@ -141,7 +141,7 @@ const App = () => {
                     <img
                       width="200"
                       height="200"
-                      src={pic.media_url}
+                      src={pic.media_type === "IMAGE" ? pic.media_url : pic.thumbnail_url}
                       alt={pic.caption}
                     />
                   </a>
