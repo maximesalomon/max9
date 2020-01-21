@@ -13,4 +13,6 @@ const getLikesCount = async (permalink) => {
     return likes_count
 }
 
-getLikesCount('https://www.instagram.com/p/B6yWe5rCpkP/')
+exports.getLikesCount = getLikesCount;
+
+// getLikesCount('https://www.instagram.com/p/B6yWe5rCpkP/')

@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import { UserContext } from "./contexts/UserContext";
 import axios from "axios";
 import styled from "styled-components";
-import moment from 'moment';
+import moment from "moment";
+const getLikesCount = require("../puppeteer");
+
 // import mergeImages from 'merge-images';
 const qs = require("query-string");
 
@@ -59,7 +61,7 @@ const App = () => {
         getPictures();
       })
       .then(() => {
-        getLongLivedAccessToken()
+        getLongLivedAccessToken();
       })
       .catch(function(error) {
         console.log(error);
@@ -71,13 +73,19 @@ const App = () => {
     axios
       .get("https://graph.instagram.com/me/media", {
         params: {
-          fields: "id,timestamp,media_type,media_url,thumbnail_url,permalink,caption",
+          fields:
+            "id,timestamp,media_type,media_url,thumbnail_url,permalink,caption",
           access_token: access_token
         }
       })
       .then(res => {
         setPictures(res.data.data);
-        console.log(res.data)
+        console.log(res.data);
+      })
+      .then(res => {
+        pictures.forEach(pic => {
+          console.log(getLikesCount(pic.permalink));
+        });
       })
       .catch(err => {
         console.log(err);
@@ -96,7 +104,7 @@ const App = () => {
       })
       .then(res => {
         localStorage.setItem("access_token", res.data.access_token);
-        console.log(res.data.data)
+        console.log(res.data.data);
       })
       .catch(err => {
         console.log(err);
@@ -141,7 +149,11 @@ const App = () => {
                     <img
                       width="200"
                       height="200"
-                      src={pic.media_type === "IMAGE" ? pic.media_url : pic.thumbnail_url}
+                      src={
+                        pic.media_type === "IMAGE"
+                          ? pic.media_url
+                          : pic.thumbnail_url
+                      }
                       alt={pic.caption}
                     />
                   </a>
