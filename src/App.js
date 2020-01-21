@@ -3,7 +3,6 @@ import { UserContext } from "./contexts/UserContext";
 import axios from "axios";
 import styled from "styled-components";
 import moment from "moment";
-const getLikesCount = require("../puppeteer");
 
 // import mergeImages from 'merge-images';
 const qs = require("query-string");
@@ -81,11 +80,6 @@ const App = () => {
       .then(res => {
         setPictures(res.data.data);
         console.log(res.data);
-      })
-      .then(res => {
-        pictures.forEach(pic => {
-          console.log(getLikesCount(pic.permalink));
-        });
       })
       .catch(err => {
         console.log(err);
