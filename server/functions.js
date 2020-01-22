@@ -23,7 +23,7 @@ const getUserPosts = access_token => {
 const getUserLikes = async user_pictures => {
   const userLikes = await Promise.all(
     user_pictures.map(async picture => {
-      const user_likes_count = await scrapers.scrapeImageLikesCount(picture.permalink);
+      const user_likes_count = await scrapers.scrapePictureLikesCount(picture.permalink);
       return user_likes_count;
     })
   );

@@ -1,6 +1,6 @@
 const puppeteer = require("puppeteer");
 
-const scrapeImageLikesCount = async url => {
+const scrapePictureLikesCount = async url => {
   const browser = await puppeteer.launch({
     headless: true
   });
@@ -20,5 +20,5 @@ const scrapeImageLikesCount = async url => {
 
 
 module.exports = {
-    scrapeImageLikesCount
+    scrapePictureLikesCount
 }
