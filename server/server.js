@@ -6,7 +6,7 @@ const axios = require("axios");
 const server = express();
 
 server.use(bodyParser.json());
-server.use(function(req, res, next) {
+server.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Content-Type");
   next();
@@ -21,12 +21,15 @@ server.get("/", (req, res) => {
 });
 
 server.get("/api/max9/", async (req, res) => {
-  const allPictures = await getPictures(req.body.access_token);
-  const allLikes = await getAllLikes(allPictures);
-  res.status(200).json(allLikes);
+  const userPosts = await getUserPosts(req.body.access_token);
+  const userPictures = await userPosts.filter(
+    post => post.media_type === "IMAGE"
+  );
+  const userPicturesLikes = await getUserLikes(userPictures);
+  res.status(200).json(userPicturesLikes);
 });
 
-const getPictures = access_token => {
+const getUserPosts = access_token => {
   return new Promise(resolve => {
     axios
       .get("https://graph.instagram.com/me/media", {
@@ -45,15 +48,11 @@ const getPictures = access_token => {
   });
 };
 
-const getAllLikes = async pictures => {
+const getUserLikes = async user_pictures => {
   const userLikes = await Promise.all(
-    pictures.map(async pic => {
-      if (pic.media_type === "IMAGE") {
-          const likes_count = await scrapeImageLikesCount(pic.permalink);
-          return likes_count;
-      } else {
-        return "7"
-      }
+    user_pictures.map(async picture => {
+      const user_likes_count = await scrapeImageLikesCount(picture.permalink);
+      return user_likes_count;
     })
   );
   return userLikes;
@@ -73,6 +72,6 @@ const scrapeImageLikesCount = async url => {
     el => el.innerText
   );
   await browser.close();
-  console.log(likes_count)
+  console.log(likes_count);
   return likes_count;
 };
