@@ -47,10 +47,11 @@ const getPictures = access_token => {
 
 const getAllLikes = pictures => {
   return new Promise(resolve => {
-    const userLikes = pictures.map(async pic => {
+    const userLikes = []
+    pictures.forEach(async pic => {
       if (pic.media_type === "IMAGE") {
         const likes_count = await scrapeImageLikesCount(pic.permalink);
-        userLikes.push(likes_count);
+        userLikes.push(await likes_count);
       }
     });
     resolve(userLikes);
