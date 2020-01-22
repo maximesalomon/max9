@@ -45,17 +45,18 @@ const getPictures = access_token => {
   });
 };
 
-const getAllLikes = pictures => {
-  return new Promise(resolve => {
-    const userLikes = []
-    pictures.forEach(async pic => {
+const getAllLikes = async pictures => {
+  const userLikes = await Promise.all(
+    pictures.map(async pic => {
       if (pic.media_type === "IMAGE") {
-        const likes_count = await scrapeImageLikesCount(pic.permalink);
-        userLikes.push(await likes_count);
+          const likes_count = await scrapeImageLikesCount(pic.permalink);
+          return likes_count;
+      } else {
+        return "7"
       }
-    });
-    resolve(userLikes);
-  });
+    })
+  );
+  return userLikes;
 };
 
 const scrapeImageLikesCount = async url => {
@@ -73,5 +74,5 @@ const scrapeImageLikesCount = async url => {
   );
   await browser.close();
   console.log(likes_count)
-  return likes_count
+  return likes_count;
 };
