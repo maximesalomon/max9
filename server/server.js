@@ -16,30 +16,71 @@ server.get("/", (req, res) => {
   res.send("Hello from Express");
 });
 
-server.get("/api/max9/", async (req, res) => {
-  console.log(req.body.user_id);
-  console.log(req.body.access_token);
-  await axios
-    .get("https://graph.instagram.com/me/media", {
-      params: {
-        fields:
-          "id,timestamp,media_type,media_url,thumbnail_url,permalink,caption",
-        access_token: req.body.access_token
-      }
-    })
-    .then(res => {
-      console.log(res.data.data);
-      res.data.data.map(pic => {
+const getAllLikes = (pictures) => {
+    pictures.map(pic => {
+        const userLikes = [];
           if(pic.media_type === 'IMAGE') {
-            scrapeImageLikesCount(pic.permalink)
+           const likes_count = scrapeImageLikesCount(pic.permalink)
+           userLikes.push(likes_count)
           }
+          return userLikes;
       });
-    })
-    .catch(err => {
-      console.log(err);
-    });
-  res.status(200).json("wip");
-});
+}
+
+const getPictures = async (access_token) => {
+    await axios
+      .get("https://graph.instagram.com/me/media", {
+        params: {
+          fields:
+            "id,timestamp,media_type,media_url,thumbnail_url,permalink,caption",
+          access_token: access_token
+        }
+      })
+      .then(async res => {
+        console.log(res.data.data);
+        return getAllLikes(res.data.data)
+      })
+      .catch(err => {
+        console.log(err);
+      });
+} 
+
+server.get("/api/max9/", async (req, res) => {
+    console.log(req.body.user_id);
+    console.log(req.body.access_token);
+    const allPictures = await getPictures(req.body.access_token)
+    const allLikes = await getAllLikes(allPictures)
+    res.status(200).json('7');
+  });
+
+// server.get("/api/max9/", async (req, res) => {
+//   console.log(req.body.user_id);
+//   console.log(req.body.access_token);
+//   await axios
+//     .get("https://graph.instagram.com/me/media", {
+//       params: {
+//         fields:
+//           "id,timestamp,media_type,media_url,thumbnail_url,permalink,caption",
+//         access_token: req.body.access_token
+//       }
+//     })
+//     .then(async res => {
+//       console.log(res.data.data);
+//       await res.data.data.map(pic => {
+//         const userLikes = ['7', '12'];
+//           if(pic.media_type === 'IMAGE') {
+//            const likes_count = scrapeImageLikesCount(pic.permalink)
+//            userLikes.push(likes_count)
+//           }
+//       });
+//     })
+//     .then(() => {
+//         res.status(200).json('7');
+//     })
+//     .catch(err => {
+//       console.log(err);
+//     });
+// });
 
 server.listen(7000, () =>
   console.log("Server running on http://localhost:7000")
@@ -57,5 +98,5 @@ async function scrapeImageLikesCount(url) {
       const likes_count = await page.$eval(".Nm9Fw button span", el => el.innerText);
       await browser.close();
       console.log(likes_count)
-      return { likes_count }
+      return likes_count
 }
