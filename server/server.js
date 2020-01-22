@@ -29,44 +29,33 @@ server.get("/api/max9/", async (req, res) => {
     })
     .then(res => {
       console.log(res.data.data);
-      const pics = res.data.data.map(async pic => {
-            const browser = await puppeteer.launch({
-            headless: true
-          });
-          const page = await browser.newPage();
-          await page.setViewport({ width: 1440, height: 900 });
-          await page.goto(pic.permalink, {
-            waitUntil: "networkidle2"
-          });
-          const likes_count = await page.$eval(
-            ".Nm9Fw button span",
-            el => el.innerText
-          );
-          console.log(`${pic.permalink} received ${likes_count} likes`)
-          await browser.close();
-      })
+      res.data.data.map(pic => {
+          if(pic.media_type === 'IMAGE') {
+            scrapeImageLikesCount(pic.permalink)
+          }
+      });
     })
     .catch(err => {
       console.log(err);
     });
-    res.status(200).json("wip");
-
-//   const browser = await puppeteer.launch({
-//     headless: true
-//   });
-//   const page = await browser.newPage();
-//   await page.setViewport({ width: 1440, height: 900 });
-//   await page.goto("https://www.instagram.com/p/Be5_t9xlHQn/", {
-//     waitUntil: "networkidle2"
-//   });
-//   const likes_count = await page.$eval(
-//     ".Nm9Fw button span",
-//     el => el.innerText
-//   );
-//   await browser.close();
-//   res.status(200).json(likes_count);
+  res.status(200).json("wip");
 });
 
 server.listen(7000, () =>
   console.log("Server running on http://localhost:7000")
 );
+
+async function scrapeImageLikesCount(url) {
+    const browser = await puppeteer.launch({
+        headless: true
+      });
+      const page = await browser.newPage();
+      await page.setViewport({ width: 1440, height: 900 });
+      await page.goto(url, {
+        waitUntil: "networkidle2"
+      });
+      const likes_count = await page.$eval(".Nm9Fw button span", el => el.innerText);
+      await browser.close();
+      console.log(likes_count)
+      return { likes_count }
+}
