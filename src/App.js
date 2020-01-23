@@ -57,10 +57,10 @@ const App = () => {
         setLoggedIn(true);
       })
       .then(() => {
-        getLongLivedAccessToken();
+        getPictures();
       })
       .then(() => {
-        getPictures();
+        getLongLivedAccessToken();
       })
       .catch(function(error) {
         console.log(error);
@@ -100,9 +100,8 @@ const App = () => {
 
   const getLocalStorageToken = () => {
     if (localStorage.getItem("access_token")) {
-      setLoggedIn(true).then(() => {
-        getPictures();
-      })
+      setLoggedIn(true);
+      getPictures();
     } else {
       getAccesToken();
     }
