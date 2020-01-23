@@ -72,9 +72,7 @@ const App = () => {
       .get("http://localhost:7000/api/max9", {
         params: {},
         headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Headers": "Content-Type",
-          "Content-Type": "application/x-www-form-urlencoded",
+          "Content-Type": "Access-Control-Allow-Headers",
           access_token:
             "IGQVJXMkp2dTJxUXBzMk1UY19rR2dOTHFlMVRYUDdITjBFNUoxZAWpMMTJGaGkyU2xRSEpvalc1VkdzLTB0bFRxakVldldDU1BLSTNVSElfV19qSWN6a1pqenRvLWFCOGN6OW9HSS13"
         }
