@@ -70,15 +70,13 @@ const App = () => {
   const getPictures = () => {
     const access_token = localStorage.getItem("access_token");
     axios
-      .get("http://localhost:7000/api/max9", {
+      .get("https://graph.instagram.com/me/media", {
         params: {
-          // fields:
-          //   "id,timestamp,media_type,media_url,thumbnail_url,permalink,caption",
           access_token: access_token
         }
       })
       .then(res => {
-        // setPictures(res.data);
+        // setPictures(res.data.data);
         console.log(res);
       })
       .catch(err => {
