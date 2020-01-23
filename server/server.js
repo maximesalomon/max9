@@ -26,11 +26,13 @@ server.get("/api/max9/", async (req, res) => {
     post => post.media_type === "IMAGE"
   );
   const userPicturesLikes = await functions.getUserLikes(userPictures);
-  // const userPicturesWithLikes = await userPicturesLikes.map((like => {
-  //   return userPictures.map(pic => {
-  //     return pic.likes = like
-  //   });
-  // }))
-  // console.log(userPicturesWithLikes)
-  res.status(200).json(userPicturesLikes);
+  const userPicturesWithLikes = await userPictures.map( pic => {
+    let temp = userPicturesLikes.find(like => like.url === pic.permalink)
+    if(temp.url) {
+      pic.permalink = temp.url
+      pic.likes = temp.likes_count
+    }
+    return pic
+  })
+  res.status(200).json(userPicturesWithLikes);
 });

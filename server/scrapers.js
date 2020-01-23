@@ -14,8 +14,12 @@ const scrapePictureLikesCount = async url => {
     el => el.innerText
   );
   await browser.close();
-  console.log(likes_count);
-  return likes_count;
+  var userLikes = {
+    likes_count: likes_count,
+    url: url
+  };
+  // console.log(userLikes);
+  return userLikes;
 };
 
 
