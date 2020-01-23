@@ -67,8 +67,8 @@ const App = () => {
       });
   };
 
-  const getPictures = () => {
-    const access_token = localStorage.getItem("access_token");
+  const getPictures = async () => {
+    const access_token = await localStorage.getItem("access_token");
     axios
       .get("http://localhost:7000/api/max9", null ,{
         headers: {
