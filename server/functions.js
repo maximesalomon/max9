@@ -8,7 +8,7 @@ const getUserPosts = access_token => {
         params: {
           fields:
             "id,timestamp,media_type,media_url,thumbnail_url,permalink,caption",
-          access_token: access_token
+            access_token: access_token
         }
       })
       .then(res => {
