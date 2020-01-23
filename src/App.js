@@ -72,11 +72,13 @@ const App = () => {
       .get("http://localhost:7000/api/max9", {
         params: {},
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'access_token': 'IGQVJXMkp2dTJxUXBzMk1UY19rR2dOTHFlMVRYUDdITjBFNUoxZAWpMMTJGaGkyU2xRSEpvalc1VkdzLTB0bFRxakVldldDU1BLSTNVSElfV19qSWN6a1pqenRvLWFCOGN6OW9HSS13'
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Content-Type": "application/x-www-form-urlencoded",
+          access_token:
+            "IGQVJXMkp2dTJxUXBzMk1UY19rR2dOTHFlMVRYUDdITjBFNUoxZAWpMMTJGaGkyU2xRSEpvalc1VkdzLTB0bFRxakVldldDU1BLSTNVSElfV19qSWN6a1pqenRvLWFCOGN6OW9HSS13"
         }
-      }
-    )
+      })
       .then(res => {
         // setPictures(res.data.data);
         console.log(res);
