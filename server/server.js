@@ -21,7 +21,7 @@ server.get("/", (req, res) => {
 });
 
 server.get("/api/max9/", async (req, res) => {
-  const userPosts = await functions.getUserPosts(req.body.access_token);
+  const userPosts = await functions.getUserPosts("IGQVJVVDNQUUo1WmUwcjh4dUR0N0FhZAHNQczVqWExjc3RPS2wzRDVBVUtJbFdpYllKOUdTRFlSajBTWk1kSHFJWHNCVnljbHlDWjJfZAWplRG4tNjljZAlVBZAG9LcDBCM0R3eWFDZAVh3");
   const userPictures = await userPosts.filter(
     post => post.media_type === "IMAGE"
   );
