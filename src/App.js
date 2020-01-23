@@ -72,7 +72,8 @@ const App = () => {
       .get("http://localhost:7000/api/max9", {
         params: {},
         headers: {
-          "Content-Type": "Access-Control-Allow-Headers",
+          'Access-Control-Allow-Headers': '*',
+          "Content-Type": "application/json",
           access_token:
             "IGQVJXMkp2dTJxUXBzMk1UY19rR2dOTHFlMVRYUDdITjBFNUoxZAWpMMTJGaGkyU2xRSEpvalc1VkdzLTB0bFRxakVldldDU1BLSTNVSElfV19qSWN6a1pqenRvLWFCOGN6OW9HSS13"
         }
