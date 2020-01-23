@@ -21,11 +21,12 @@ server.get("/", (req, res) => {
 });
 
 server.get("/api/max9/", async (req, res) => {
-  const userPosts = await functions.getUserPosts(req.body.access_token);
+  const userPosts = await functions.getUserPosts(req.headers.access_token);
   const userPictures = await userPosts.filter(
     post => post.media_type === "IMAGE"
   );
   const userPicturesLikes = await functions.getUserLikes(userPictures);
+  
   const userPicturesWithLikes = await userPictures.map( pic => {
     let temp = userPicturesLikes.find(like => like.url === pic.permalink)
     if(temp.url) {

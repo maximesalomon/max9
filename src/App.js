@@ -70,10 +70,10 @@ const App = () => {
   const getPictures = () => {
     const access_token = localStorage.getItem("access_token");
     axios
-      .get("http://localhost:7000/api/max9", { 
-        access_token: access_token }, {
+      .get("http://localhost:7000/api/max9", null ,{
         headers: {
             'Content-Type': 'application/json',
+            'access_token': access_token
         }
     })
       .then(res => {
