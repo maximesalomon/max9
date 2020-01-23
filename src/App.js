@@ -69,7 +69,7 @@ const App = () => {
 
   const getPictures = access_token => {
     axios
-      .get("http://localhost:7000/api/max9", null ,{
+      .get("http://localhost:7000/api/max9", {
         headers: {
             'Content-Type': 'application/json',
             'access_token': 'IGQVJXMkp2dTJxUXBzMk1UY19rR2dOTHFlMVRYUDdITjBFNUoxZAWpMMTJGaGkyU2xRSEpvalc1VkdzLTB0bFRxakVldldDU1BLSTNVSElfV19qSWN6a1pqenRvLWFCOGN6OW9HSS13'
