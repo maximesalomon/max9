@@ -73,10 +73,11 @@ const App = () => {
         params: {},
         headers: {
           "Access-Control-Allow-Headers": "*",
+          "Access-Control-Allow-Origin": "*",
           "Content-Type": "application/json",
           "Access-Control-Allow-Methods":
             "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-          access_token:
+          "access_token":
             "IGQVJXMkp2dTJxUXBzMk1UY19rR2dOTHFlMVRYUDdITjBFNUoxZAWpMMTJGaGkyU2xRSEpvalc1VkdzLTB0bFRxakVldldDU1BLSTNVSElfV19qSWN6a1pqenRvLWFCOGN6OW9HSS13"
         }
       })
