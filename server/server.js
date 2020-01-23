@@ -6,7 +6,7 @@ const functions = require('./functions');
 
 const server = express();
 
-server.user(cors())
+server.use(cors())
 server.use(bodyParser.json());
 server.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");

@@ -77,13 +77,13 @@ const App = () => {
           "Content-Type": "application/json",
           "Access-Control-Allow-Methods":
             "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-          "access_token":
+          access_token:
             "IGQVJXMkp2dTJxUXBzMk1UY19rR2dOTHFlMVRYUDdITjBFNUoxZAWpMMTJGaGkyU2xRSEpvalc1VkdzLTB0bFRxakVldldDU1BLSTNVSElfV19qSWN6a1pqenRvLWFCOGN6OW9HSS13"
         }
       })
       .then(res => {
-        // setPictures(res.data.data);
-        console.log(res);
+        setPictures(res.data);
+        console.log(res.data);
       })
       .catch(err => {
         console.log(err);
@@ -138,25 +138,31 @@ const App = () => {
         </Max9>
         {loggedIn && loggedIn ? (
           <Pics>
-            {pictures.slice(0, 9).map(pic => {
-              console.log(moment(pic.timestamp).format("MMM Do YY"));
-              return (
-                <Pic>
-                  <a key={pic.id} href={pic.permalink}>
-                    <img
-                      width="200"
-                      height="200"
-                      src={
-                        pic.media_type === "IMAGE"
-                          ? pic.media_url
-                          : pic.thumbnail_url
-                      }
-                      alt={pic.caption}
-                    />
-                  </a>
-                </Pic>
-              );
-            })}
+            {pictures
+              .sort((a, b) => {
+                if (a.likes < b.likes) return -1;
+                if (a.likes > b.likes) return 1;
+                return 0;
+              })
+              .slice(0, 9)
+              .map(pic => {
+                return (
+                  <Pic>
+                    <a key={pic.id} href={pic.permalink}>
+                      <img
+                        width="200"
+                        height="200"
+                        src={
+                          pic.media_type === "IMAGE"
+                            ? pic.media_url
+                            : pic.thumbnail_url
+                        }
+                        alt={pic.caption}
+                      />
+                    </a>
+                  </Pic>
+                );
+              })}
             <button onClick={() => deleteUserAuth()}>Logout</button>
           </Pics>
         ) : (
