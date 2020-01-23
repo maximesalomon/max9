@@ -140,11 +140,13 @@ const App = () => {
           <Pics>
             
             {
-            pictures.sort((a, b) => {
-              if(a.likes < b.likes) return 1;
-              if(a.likes > b.likes) return -1;
-              return 0
-            }).slice(0, 9).map(pic => {
+            // pictures.sort((a, b) => {
+            //   if(a.likes < b.likes) return 1;
+            //   if(a.likes > b.likes) return -1;
+            //   return 0
+            // })
+            pictures.sort((a,b) => a.likes + b.likes)
+            .slice(0, 9).map(pic => {
               return (
                 <Pic>
                   <a key={pic.id} href={pic.permalink}>
