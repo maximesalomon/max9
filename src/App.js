@@ -72,7 +72,7 @@ const App = () => {
       .get("http://localhost:7000/api/max9", null ,{
         headers: {
             'Content-Type': 'application/json',
-            'access_token': access_token
+            'access_token': 'IGQVJXMkp2dTJxUXBzMk1UY19rR2dOTHFlMVRYUDdITjBFNUoxZAWpMMTJGaGkyU2xRSEpvalc1VkdzLTB0bFRxakVldldDU1BLSTNVSElfV19qSWN6a1pqenRvLWFCOGN6OW9HSS13'
         }
     })
       .then(res => {
