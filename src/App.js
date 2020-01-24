@@ -148,7 +148,7 @@ const App = () => {
                       width="200"
                       height="200"
                       src={
-                        pic.media_type === "IMAGE" || "CAROUSEL_ALBUM"
+                        pic.media_type === "IMAGE"
                           ? pic.media_url
                           : pic.thumbnail_url
                       }
