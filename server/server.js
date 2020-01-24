@@ -25,8 +25,9 @@ server.get("/", (req, res) => {
 server.get("/api/max9/", async (req, res) => {
   console.log(req.headers.access_token)
   const userPosts = await functions.getUserPosts(req.headers.access_token);
+  console.log(await userPosts)
   const userPictures = await userPosts.filter(
-    post => post.media_type === "IMAGE"
+    post => post.media_type === "IMAGE" || "CAROUSEL_ALBUM"
   );
   const userPicturesLikes = await functions.getUserLikes(userPictures);
   const userPicturesWithLikes = await userPictures.map( pic => {
