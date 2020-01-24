@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import { UserContext } from "./contexts/UserContext";
 import axios from "axios";
 import styled from "styled-components";
-import moment from "moment";
 
-// import mergeImages from 'merge-images';
 const qs = require("query-string");
 
 const App = () => {
@@ -57,10 +55,11 @@ const App = () => {
         setLoggedIn(true);
       })
       .then(() => {
-        getPictures();
-      })
-      .then(() => {
         getLongLivedAccessToken();
+      })
+      .then(async () => {
+        const access_token = localStorage.getItem("access_token")
+        await getPictures(access_token);
       })
       .catch(function(error) {
         console.log(error);
@@ -89,14 +88,14 @@ const App = () => {
       });
   };
 
-  const getLongLivedAccessToken = () => {
+  const getLongLivedAccessToken = async () => {
     const access_token = localStorage.getItem("access_token");
     axios
       .get("https://graph.instagram.com/access_token", {
         params: {
           grant_type: "ig_exchange_token",
           client_secret: "84b5a7856a880e70e68ba4ee83afe0c4",
-          access_token: access_token
+          access_token: await access_token
         }
       })
       .then(res => {
@@ -107,10 +106,11 @@ const App = () => {
       });
   };
 
-  const getLocalStorageToken = () => {
-    if (localStorage.getItem("access_token")) {
+  const getLocalStorageToken = async () => {
+    const access_token = localStorage.getItem("access_token");
+    if (await access_token) {
       setLoggedIn(true);
-      getPictures(localStorage.getItem("access_token"));
+      getPictures(access_token);
     } else {
       getAccesToken();
     }
