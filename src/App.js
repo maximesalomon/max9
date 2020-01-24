@@ -139,7 +139,7 @@ const App = () => {
           <Pics>
             
             {
-            pictures.sort((a, b) => (a.likes < b.likes) ? 1 : -1)
+            pictures.sort((a, b) => (parseInt(a.likes) < parseInt(b.likes)) ? 1 : -1)
             .slice(0, 9).map(pic => {
               return (
                 <Pic>
