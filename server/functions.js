@@ -1,7 +1,7 @@
 const axios = require("axios");
 const scrapers = require("./scrapers");
 
-const getUserPosts = access_token => {
+const getAllUserPosts = access_token => {
   return new Promise(resolve => {
     axios
       .get("https://graph.instagram.com/me/media", {
@@ -12,14 +12,39 @@ const getUserPosts = access_token => {
         }
       })
       .then(res => {
-        console.log(res.data)
-        resolve(res.data.data);
+          resolve(res.data.data);
       })
       .catch(err => {
         console.log(err);
       });
   });
 };
+
+// const getUserPosts = access_token => {
+//   return new Promise(resolve => {
+//     const allUserPosts = []
+//     axios
+//       .get("https://graph.instagram.com/me/media", {
+//         params: {
+//           fields:
+//             "id,timestamp,media_type,media_url,thumbnail_url,permalink,caption",
+//           access_token: access_token
+//         }
+//       })
+//       .then(res => {
+//         if (res.data.data.length === 25) {
+//           const allUserPosts = res.data.data;
+//           console.log('FETCH NEXT PAGE')
+//           console.log(allUserPosts)
+//         } else {
+//           resolve(res.data.data);
+//         }
+//       })
+//       .catch(err => {
+//         console.log(err);
+//       });
+//   });
+// };
 
 const getUserLikes = async user_pictures => {
   const userLikes = await Promise.all(
@@ -41,6 +66,6 @@ const getUserLikes = async user_pictures => {
 };
 
 module.exports = {
-  getUserPosts,
+  getAllUserPosts,
   getUserLikes
 };

@@ -24,7 +24,7 @@ server.get("/", (req, res) => {
 
 server.get("/api/max9/", async (req, res) => {
   // console.log(req.headers.access_token)
-  const userPosts = await functions.getUserPosts(req.headers.access_token);
+  const userPosts = await functions.getAllUserPosts(req.headers.access_token);
   // console.log(await userPosts)
   const userPostsLikes = await functions.getUserLikes(userPosts);
   // console.log(await userPostsLikes)
