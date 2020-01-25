@@ -16,7 +16,7 @@ const getAllUserPosts = access_token => {
           const tempAllUserPosts = res.data.data;
           const nextUserPosts = await getNextUserPosts(res.data.paging.next);
           const allUserPosts = await nextUserPosts.concat(tempAllUserPosts);
-          resolve(await allUserPosts);
+          resolve(allUserPosts);
         } else {
           resolve(res.data.data);
         }
@@ -61,7 +61,7 @@ const getUserLikes = async user_pictures => {
         return user_likes_count;
       }
     })
-  );
+  )
   return userLikes;
 };
 

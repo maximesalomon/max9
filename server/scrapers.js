@@ -6,9 +6,7 @@ const scrapePictureLikesCount = async url => {
   });
   const page = await browser.newPage();
   await page.setViewport({ width: 1440, height: 900 });
-  await page.goto(url, {
-    waitUntil: "networkidle2"
-  });
+  await page.goto(url);
   const likes_count = await page.$eval(".Nm9Fw button span", el => el.innerText);
   await browser.close();
   var userLikes = {
