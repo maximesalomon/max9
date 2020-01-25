@@ -18,11 +18,19 @@ const scrapePictureLikesCount = async url => {
     likes_count: likes_count,
     url: url
   };
-  // console.log(userLikes);
   return userLikes;
 };
 
+const scrapeVideoLikesCount = async url => {
+  return;
+};
+
+const scrapeCarouseLikesCount = async url => {
+  return;
+};
 
 module.exports = {
-    scrapePictureLikesCount
-}
+  scrapePictureLikesCount,
+  scrapeVideoLikesCount,
+  scrapeCarouseLikesCount
+};

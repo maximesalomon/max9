@@ -23,8 +23,14 @@ const getUserPosts = access_token => {
 const getUserLikes = async user_pictures => {
   const userLikes = await Promise.all(
     user_pictures.map(async picture => {
-      const user_likes_count = await scrapers.scrapePictureLikesCount(picture.permalink);
-      return user_likes_count;
+      if(picture.media_type === 'IMAGE') {
+        const user_likes_count = await scrapers.scrapePictureLikesCount(picture.permalink);
+        return user_likes_count;
+      } else if (picture.media_type === 'VIDEO') {
+        return 'TODO VIDEO'
+      } else {
+        return 'TODO CAROUSEL'
+      }
     })
   );
   return userLikes;
