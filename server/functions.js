@@ -43,7 +43,7 @@ const getNextUserPosts = url => {
 const getUserLikes = async user_pictures => {
   const userLikes = await Promise.all(
     user_pictures.map(async picture => {
-      if (picture.media_type === "IMAGE" || "CCAROUSEL_ALBUM") {
+      if (picture.media_type === "IMAGE" || "CAROUSEL_ALBUM") {
         const user_likes_count = await scrapers.scrapePictureLikesCount(
           picture.permalink
         );

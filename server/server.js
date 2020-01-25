@@ -25,9 +25,9 @@ server.get("/", (req, res) => {
 server.get("/api/max9/", async (req, res) => {
   // console.log(req.headers.access_token)
   const userPosts = await functions.getAllUserPosts(req.headers.access_token);
-  console.log(await userPosts)
+  // console.log(await userPosts)
   const userPostsLikes = await functions.getUserLikes(userPosts);
-  // console.log(await userPostsLikes)
+  console.log(userPostsLikes)
   const userPostsWithLikes = await userPosts.map(pic => {
     let temp = userPostsLikes.find(like => like.url === pic.permalink);
     if (temp.url) {
