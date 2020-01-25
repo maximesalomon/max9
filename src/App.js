@@ -58,7 +58,7 @@ const App = () => {
         getLongLivedAccessToken();
       })
       .then(async () => {
-        const access_token = localStorage.getItem("access_token")
+        const access_token = localStorage.getItem("access_token");
         await getPictures(access_token);
       })
       .catch(function(error) {
@@ -76,7 +76,7 @@ const App = () => {
           "Content-Type": "application/json",
           "Access-Control-Allow-Methods":
             "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-          "access_token": access_token
+          access_token: access_token
         }
       })
       .then(res => {
@@ -137,27 +137,27 @@ const App = () => {
         </Max9>
         {loggedIn && loggedIn ? (
           <Pics>
-            
-            {
-            pictures.sort((a, b) => (parseInt(a.likes) < parseInt(b.likes)) ? 1 : -1)
-            .slice(0, 9).map(pic => {
-              return (
-                <Pic>
-                  <a key={pic.id} href={pic.permalink}>
-                    <img
-                      width="200"
-                      height="200"
-                      src={
-                        pic.media_type === "IMAGE"
-                          ? pic.media_url
-                          : pic.thumbnail_url
-                      }
-                      alt={pic.caption}
-                    />
-                  </a>
-                </Pic>
-              );
-            })}
+            {pictures
+              .sort((a, b) => (parseInt(a.likes) < parseInt(b.likes) ? 1 : -1))
+              .slice(0, 9)
+              .map(pic => {
+                return (
+                  <Pic>
+                    <a key={pic.id} href={pic.permalink}>
+                      <img
+                        width="200"
+                        height="200"
+                        src={
+                          pic.media_type === "IMAGE" || "CAROUSEL_ALBUM"
+                            ? pic.media_url
+                            : pic.thumbnail_url
+                        }
+                        alt={pic.caption}
+                      />
+                    </a>
+                  </Pic>
+                );
+              })}
             <button onClick={() => deleteUserAuth()}>Logout</button>
           </Pics>
         ) : (

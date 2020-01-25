@@ -1,5 +1,5 @@
 const axios = require("axios");
-const scrapers = require('./scrapers');
+const scrapers = require("./scrapers");
 
 const getUserPosts = access_token => {
   return new Promise(resolve => {
@@ -8,7 +8,7 @@ const getUserPosts = access_token => {
         params: {
           fields:
             "id,timestamp,media_type,media_url,thumbnail_url,permalink,caption",
-            access_token: access_token
+          access_token: access_token
         }
       })
       .then(res => {
@@ -23,19 +23,21 @@ const getUserPosts = access_token => {
 const getUserLikes = async user_pictures => {
   const userLikes = await Promise.all(
     user_pictures.map(async picture => {
-      if(picture.media_type === 'IMAGE') {
-        const user_likes_count = await scrapers.scrapePictureLikesCount(picture.permalink);
+      if (picture.media_type === "IMAGE" || "CCAROUSEL_ALBUM") {
+        const user_likes_count = await scrapers.scrapePictureLikesCount(
+          picture.permalink
+        );
         return user_likes_count;
-      } else if (picture.media_type === 'VIDEO') {
-        return 'TODO VIDEO'
       } else {
-        return 'TODO CAROUSEL'
+          const user_likes_count = await scrapers.scrapeVideoLikesCount(
+          picture.permalink
+        );
+        return user_likes_count;
       }
     })
   );
   return userLikes;
 };
-
 
 module.exports = {
   getUserPosts,
