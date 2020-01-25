@@ -14,10 +14,8 @@ const getAllUserPosts = access_token => {
       .then(async res => {
         if (res.data.data.length === 25) {
           const tempAllUserPosts = res.data.data
-          console.log(`FETCHING NEXT PAGE = ${res.data.paging.next}`)
           const nextUserPosts = await getNextUserPosts(res.data.paging.next)
           const allUserPosts = tempAllUserPosts.concat(await nextUserPosts);
-          console.log(await allUserPosts);
           resolve(await allUserPosts);
         } else {
           resolve(res.data.data);
