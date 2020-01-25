@@ -81,7 +81,7 @@ const App = () => {
       })
       .then(res => {
         setPictures(res.data);
-        console.log(res.data);
+        console.log(res.data.data.length)
       })
       .catch(err => {
         console.log(err);

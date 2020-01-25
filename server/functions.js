@@ -12,6 +12,7 @@ const getUserPosts = access_token => {
         }
       })
       .then(res => {
+        console.log(res.data)
         resolve(res.data.data);
       })
       .catch(err => {
