@@ -59,7 +59,7 @@ const App = () => {
       })
       .then(async () => {
         const access_token = localStorage.getItem("access_token");
-        await getPictures(access_token);
+        getPictures(access_token);
       })
       .catch(function(error) {
         console.log(error);
@@ -95,7 +95,7 @@ const App = () => {
         params: {
           grant_type: "ig_exchange_token",
           client_secret: "84b5a7856a880e70e68ba4ee83afe0c4",
-          access_token: await access_token
+          access_token: access_token
         }
       })
       .then(res => {
@@ -108,7 +108,7 @@ const App = () => {
 
   const getLocalStorageToken = async () => {
     const access_token = localStorage.getItem("access_token");
-    if (await access_token) {
+    if (access_token) {
       setLoggedIn(true);
       getPictures(access_token);
     } else {

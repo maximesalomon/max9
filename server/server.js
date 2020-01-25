@@ -26,16 +26,16 @@ server.get("/api/max9/", async (req, res) => {
   // console.log(req.headers.access_token)
   const userPosts = await functions.getAllUserPosts(req.headers.access_token);
   // console.log(userPosts)
-  const userPostsLikes = await functions.getUserLikes(userPosts);
-  console.log(userPostsLikes)
-  const userPostsWithLikes = await userPosts.map(pic => {
-    let temp = userPostsLikes.find(like => like.url === pic.permalink);
-    if (temp.url) {
-      pic.permalink = temp.url;
-      pic.likes = temp.likes_count;
-      pic.wiews_count = temp.views_count;
-    }
-    return pic;
-  });
-  res.status(200).json(userPostsWithLikes);
+  // const userPostsLikes = await functions.getUserLikes(userPosts);
+  // console.log(userPostsLikes)
+  // const userPostsWithLikes = await userPosts.map(pic => {
+  //   let temp = userPostsLikes.find(like => like.url === pic.permalink);
+  //   if (temp.url) {
+  //     pic.permalink = temp.url;
+  //     pic.likes = temp.likes_count;
+  //     pic.wiews_count = temp.views_count;
+  //   }
+  //   return pic;
+  // });
+  res.status(200).json(userPosts);
 });
