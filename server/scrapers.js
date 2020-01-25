@@ -23,9 +23,7 @@ const scrapeVideoLikesCount = async url => {
   });
   const page = await browser.newPage();
   await page.setViewport({ width: 1440, height: 900 });
-  await page.goto(url, {
-    waitUntil: "networkidle2"
-  });
+  await page.goto(url);
   const views_count = await page.$eval(".vcOH2 span", el => el.innerText);
   await page.click(".vcOH2");
   const likes_count = await page.$eval(".vJRqr span", el => el.innerText);
