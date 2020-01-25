@@ -11,6 +11,25 @@ const getAllUserPosts = access_token => {
           access_token: access_token
         }
       })
+      .then(async res => {
+        if (res.data.data.length === 25) {
+          resolve(res.data.data);
+        } else {
+          const allUserPosts = res.data.data
+          await allUserPosts.push(await getNextUserPosts(res.data.paging.next));
+          resolve(allUserPosts);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  });
+};
+
+const getNextUserPosts = url => {
+  return new Promise(resolve => {
+    axios
+      .get(url)
       .then(res => {
           resolve(res.data.data);
       })
@@ -19,32 +38,6 @@ const getAllUserPosts = access_token => {
       });
   });
 };
-
-// const getUserPosts = access_token => {
-//   return new Promise(resolve => {
-//     const allUserPosts = []
-//     axios
-//       .get("https://graph.instagram.com/me/media", {
-//         params: {
-//           fields:
-//             "id,timestamp,media_type,media_url,thumbnail_url,permalink,caption",
-//           access_token: access_token
-//         }
-//       })
-//       .then(res => {
-//         if (res.data.data.length === 25) {
-//           const allUserPosts = res.data.data;
-//           console.log('FETCH NEXT PAGE')
-//           console.log(allUserPosts)
-//         } else {
-//           resolve(res.data.data);
-//         }
-//       })
-//       .catch(err => {
-//         console.log(err);
-//       });
-//   });
-// };
 
 const getUserLikes = async user_pictures => {
   const userLikes = await Promise.all(

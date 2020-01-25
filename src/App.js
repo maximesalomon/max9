@@ -81,6 +81,7 @@ const App = () => {
       })
       .then(async res => {
         setPictures(res.data);
+        console.log(res.data);
       })
       .catch(err => {
         console.log(err);
