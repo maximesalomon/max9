@@ -12,10 +12,10 @@ const getAllUserPosts = access_token => {
         }
       })
       .then(async res => {
-        if (res.data.data.length === 25) {
-          const tempAllUserPosts = res.data.data
-          const nextUserPosts = await getNextUserPosts(res.data.paging.next)
-          const allUserPosts = tempAllUserPosts.concat(await nextUserPosts);
+        if (res.data.data.length !== 25) {
+          const tempAllUserPosts = res.data.data;
+          const nextUserPosts = await getNextUserPosts(res.data.paging.next);
+          const allUserPosts = await nextUserPosts.concat(tempAllUserPosts);
           resolve(await allUserPosts);
         } else {
           resolve(res.data.data);
@@ -32,7 +32,7 @@ const getNextUserPosts = url => {
     axios
       .get(url)
       .then(res => {
-          resolve(res.data.data);
+        resolve(res.data.data);
       })
       .catch(err => {
         console.log(err);
@@ -49,7 +49,7 @@ const getUserLikes = async user_pictures => {
         );
         return user_likes_count;
       } else {
-          const user_likes_count = await scrapers.scrapeVideoLikesCount(
+        const user_likes_count = await scrapers.scrapeVideoLikesCount(
           picture.permalink
         );
         return user_likes_count;
