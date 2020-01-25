@@ -13,11 +13,14 @@ const getAllUserPosts = access_token => {
       })
       .then(async res => {
         if (res.data.data.length === 25) {
-          resolve(res.data.data);
+          const tempAllUserPosts = res.data.data
+          console.log(`FETCHING NEXT PAGE = ${res.data.paging.next}`)
+          const nextUserPosts = await getNextUserPosts(res.data.paging.next)
+          const allUserPosts = tempAllUserPosts.concat(await nextUserPosts);
+          console.log(await allUserPosts);
+          resolve(await allUserPosts);
         } else {
-          const allUserPosts = res.data.data
-          await allUserPosts.push(await getNextUserPosts(res.data.paging.next));
-          resolve(allUserPosts);
+          resolve(res.data.data);
         }
       })
       .catch(err => {
