@@ -79,9 +79,9 @@ const App = () => {
           access_token: access_token
         }
       })
-      .then(res => {
+      .then(async res => {
         setPictures(res.data);
-        console.log(res.data.data.length)
+        console.log(await res.data.data.length)
       })
       .catch(err => {
         console.log(err);
