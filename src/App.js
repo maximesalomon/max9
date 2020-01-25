@@ -81,7 +81,6 @@ const App = () => {
       })
       .then(async res => {
         setPictures(res.data);
-        console.log(await res.data.data.length)
       })
       .catch(err => {
         console.log(err);
