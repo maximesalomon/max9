@@ -15,6 +15,7 @@ const scrapePictureLikesCount = async url => {
     likes_count: likes_count,
     url: url
   };
+  // console.log(userLikes)
   return userLikes;
 };
 
@@ -36,8 +37,12 @@ const scrapeVideoLikesCount = async url => {
     likes_count: likes_count,
     url: url
   };
+  // console.log(userLikes)
   return userLikes;
 };
+
+// scrapePictureLikesCount('https://www.instagram.com/p/B6X2XMmIwo1/')
+// scrapeVideoLikesCount('https://www.instagram.com/p/BZTq5d3F4KR/')
 
 module.exports = {
   scrapePictureLikesCount,
