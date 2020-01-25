@@ -31,19 +31,16 @@ const scrapeVideoLikesCount = async url => {
     waitUntil: "networkidle2"
   });
   await setTimeout(() => {}, 5000);
-  const view_count = await page.$eval('.vcOH2 span', el => el.innerText)
+  const views_count = await page.$eval('.vcOH2 span', el => el.innerText);
   await page.click('.vcOH2')
-  // const likes_count = await page.$eval(
-  //   ".Nm9Fw button span",
-  //   el => el.innerText
-  // );
+  const likes_count = await page.$eval('.vJRqr span', el => el.innerText);
   await browser.close();
-  // var userLikes = {
-  //   likes_count: likes_count,
-  //   url: url
-  // };
-  // return userLikes;
-  console.log(`Video view_count = ${view_count}`)
+  var userLikes = {
+    views_count: views_count,
+    likes_count: likes_count,
+    url: url
+  };
+  return userLikes;
 };
 
 const scrapeCarouseLikesCount = async url => {
