@@ -1,7 +1,8 @@
 const axios = require("axios");
+const puppeteer = require("puppeteer");
 const scrapers = require("./scrapers");
 
-const userLikes = []
+const userLikes = [];
 
 const getAllUserPosts = access_token => {
   return new Promise(resolve => {
@@ -15,8 +16,8 @@ const getAllUserPosts = access_token => {
       })
       .then(async res => {
         if (res.data.data.length === 25) {
-          userLikes.push(res.data.data)
-          resolve(getNextUserPosts(res.data.paging.next))
+          userLikes.push(res.data.data);
+          resolve(getNextUserPosts(res.data.paging.next));
         } else {
           resolve(res.data.data);
         }
@@ -31,13 +32,13 @@ const getNextUserPosts = url => {
   return new Promise(resolve => {
     axios
       .get(url)
-      .then( res => {
-        if(res.data.paging.next) {
-          userLikes.push(res.data.data)
-          resolve(getNextUserPosts(res.data.paging.next))
-        }
-        else {
-          resolve(userLikes.join());
+      .then(res => {
+        if (res.data.paging.next) {
+          userLikes.push(res.data.data);
+          resolve(getNextUserPosts(res.data.paging.next));
+        } else {
+          console.log(userLikes);
+          resolve(userLikes.flat());
         }
       })
       .catch(err => {
@@ -46,25 +47,40 @@ const getNextUserPosts = url => {
   });
 };
 
-// const getUserLikes = async user_pictures => {
-//   if (pic.media_type === "IMAGE") {
-//     const user_likes_count = await scrapers
-//       .scrapePictureLikesCount(pic.permalink)
-//       .then();
-//     return user_likes_count;
-//   } else if (pic.media_type === "CAROUSEL_ALBUM") {
-//     const user_likes_count = await scrapers.scrapePictureLikesCount(
-//       pic.permalink
-//     );
-//     return user_likes_count;
-//   } else {
-//     const user_likes_count = await scrapers.scrapeVideoLikesCount(
-//       pic.permalink
-//     );
-//     return user_likes_count;
-//   }
-// };
+const getUserLikes = async user_pictures => {
+  const browser = await puppeteer.launch({
+    headless: true
+  });
+  for await (let pic of user_pictures) {
+    if (pic.media_type === "IMAGE") {
+      const user_likes_count = await scrapers.scrapePictureLikesCount(
+        browser,
+        pic.permalink
+      );
+      console.log(user_likes_count);
+      userLikes.push(user_likes_count);
+    } else if (pic.media_type === "CAROUSEL_ALBUM") {
+      const user_likes_count = await scrapers.scrapePictureLikesCount(
+        browser,
+        pic.permalink
+      );
+      console.log(user_likes_count);
+      userLikes.push(user_likes_count);
+    } else {
+      const user_likes_count = await scrapers.scrapeVideoLikesCount(
+        browser,
+        pic.permalink
+      );
+      console.log(user_likes_count);
+      userLikes.push(user_likes_count);
+    }
+    
+  }
+  await browser.close();
+  return userLikes;
+};
 
 module.exports = {
-  getAllUserPosts
+  getAllUserPosts,
+  getUserLikes
 };
