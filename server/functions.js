@@ -38,7 +38,7 @@ const getNextUserPosts = url => {
           resolve(getNextUserPosts(res.data.paging.next));
         } else {
           console.log(userLikes);
-          resolve(userLikes.flat());
+          resolve(userLikes.flat())
         }
       })
       .catch(err => {
@@ -80,7 +80,13 @@ const getUserLikes = async user_pictures => {
   return userLikes;
 };
 
+const emptyUserLikes = () => {
+  userLikes.length = 0
+  return
+}
+
 module.exports = {
   getAllUserPosts,
-  getUserLikes
+  getUserLikes,
+  emptyUserLikes
 };

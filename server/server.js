@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+require('dotenv').config()
 
 const functions = require("./functions");
 
@@ -14,8 +15,10 @@ server.use((req, res, next) => {
   next();
 });
 
-server.listen(7000, () =>
-  console.log("Server running on http://localhost:7000")
+const port = process.env.PORT;
+
+server.listen(port, () =>
+  console.log(`Server running on http://localhost:${port}`)
 );
 
 server.get("/", (req, res) => {
@@ -38,5 +41,6 @@ server.get("/api/max9/", async (req, res) => {
     }
     return pic;
   });
+  await functions.emptyUserLikes()
   res.status(200).json(userPostsWithLikes);
 });
