@@ -12,7 +12,7 @@ const PORT = process.env.PORT;
 
 let REDIS_URL = process.env.REDIS_URL || 'redis://127.0.0.1:6379';
 
-const igQueue = new Queue('Get Instagram pictures and likes', REDIS_URL);
+const igQueue = new Queue('Instagram', REDIS_URL);
 
 server.use(cors());
 server.use(bodyParser.json());
@@ -30,9 +30,9 @@ server.get("/", (req, res) => {
   res.send("Hello from Express");
 });
 
-server.get("/api/max9/", async (req, res) => {
+server.post("/api/max9/", async (req, res) => {
   const job = await igQueue.add({data: {user_id: req.headers.user_id, access_token: req.headers.access_token}})
-  res.json({ id: job.id, success: true});
+  res.json(job.data);
   // console.log(req.headers.access_token)
   // const userPosts = await functions.getAllUserPosts(req.headers.access_token);
   // console.log(userPosts);
@@ -52,7 +52,29 @@ server.get("/api/max9/", async (req, res) => {
   // res.status(200).json(userPostsWithLikes);
 });
 
+// server.get("/api/max9/", async (req, res) => {
+//   const job = await igQueue.add({data: {user_id: req.headers.user_id, access_token: req.headers.access_token}})
+//   res.json(job.data);
+//   // console.log(req.headers.access_token)
+//   // const userPosts = await functions.getAllUserPosts(req.headers.access_token);
+//   // console.log(userPosts);
+//   // const userPostsLikes = await functions.getUserLikes(userPosts);
+//   // console.log(userPostsLikes);
+//   // const userPostsWithLikes = await userPosts.map(pic => {
+//   //   let temp = userPostsLikes.find(like => like.url === pic.permalink);
+//     // console.log(temp)
+//   //   if (temp) {
+//   //     pic.permalink = temp.url;
+//   //     pic.likes = temp.likes_count;
+//   //     pic.wiews_count = temp.views_count;
+//   //   }
+//   //   return pic;
+//   // });
+//   // await functions.emptyUserLikes()
+//   // res.status(200).json(userPostsWithLikes);
+// });
+
 igQueue.process(async (job, done) => {
-  console.log(job.data)
+  console.log(job)
   done()
 });

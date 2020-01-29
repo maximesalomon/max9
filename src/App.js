@@ -69,7 +69,7 @@ const App = () => {
 
   const getPictures = (user_id, access_token) => {
     axios
-      .get("http://localhost:7000/api/max9", {
+      .post("http://localhost:7000/api/max9", {
         params: {},
         headers: {
           "Access-Control-Allow-Headers": "*",
