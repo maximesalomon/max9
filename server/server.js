@@ -31,9 +31,8 @@ server.get("/", (req, res) => {
 });
 
 server.get("/api/max9/", async (req, res) => {
-  const job = await igQueue.add(req.headers.id);
-  res.json(job)
-  // res.json({ id: job.id, success: true});
+  const job = await igQueue.add({data: {user_id: req.headers.user_id, access_token: req.headers.access_token}})
+  res.json({ id: job.id, success: true});
   // console.log(req.headers.access_token)
   // const userPosts = await functions.getAllUserPosts(req.headers.access_token);
   // console.log(userPosts);
@@ -51,4 +50,9 @@ server.get("/api/max9/", async (req, res) => {
   // });
   // await functions.emptyUserLikes()
   // res.status(200).json(userPostsWithLikes);
+});
+
+igQueue.process(async (job, done) => {
+  console.log(job.data)
+  done()
 });

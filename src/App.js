@@ -66,7 +66,7 @@ const App = () => {
       });
   };
 
-  const getPictures = access_token => {
+  const getPictures = (id, access_token) => {
     axios
       .get("http://localhost:7000/api/max9", {
         params: {},
@@ -76,12 +76,13 @@ const App = () => {
           "Content-Type": "application/json",
           "Access-Control-Allow-Methods":
             "GET, POST, PATCH, PUT, DELETE, OPTIONS",
+          id: id,
           access_token: access_token
         }
       })
       .then(async res => {
-        setPictures(res.data);
-        console.log(res.data);
+        // setPictures(res.data);
+        console.log(res);
       })
       .catch(err => {
         console.log(err);
@@ -107,10 +108,11 @@ const App = () => {
   };
 
   const getLocalStorageToken = async () => {
+    const user_id = localStorage.getItem("user_id");
     const access_token = localStorage.getItem("access_token");
     if (access_token) {
       setLoggedIn(true);
-      getPictures(access_token);
+      getPictures(user_id, access_token);
     } else {
       getAccesToken();
     }
