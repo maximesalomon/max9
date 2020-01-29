@@ -70,17 +70,10 @@ const App = () => {
   const getPictures = (user_id, access_token) => {
     axios
       .post("http://localhost:7000/api/max9", {
-        params: {},
-        headers: {
-          "Access-Control-Allow-Headers": "*",
-          "Access-Control-Allow-Origin": "*",
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Methods":
-            "GET, POST, PATCH, PUT, DELETE, OPTIONS",
           user_id: user_id,
           access_token: access_token
         }
-      })
+      )
       .then(async res => {
         // setPictures(res.data);
         console.log(res);
