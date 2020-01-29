@@ -67,7 +67,7 @@ const App = () => {
       });
   };
 
-  const getPictures = (id, access_token) => {
+  const getPictures = (user_id, access_token) => {
     axios
       .get("http://localhost:7000/api/max9", {
         params: {},
@@ -77,7 +77,7 @@ const App = () => {
           "Content-Type": "application/json",
           "Access-Control-Allow-Methods":
             "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-          id: id,
+          user_id: user_id,
           access_token: access_token
         }
       })
