@@ -12,7 +12,7 @@ const PORT = process.env.PORT;
 
 let REDIS_URL = process.env.REDIS_URL || 'redis://127.0.0.1:6379';
 
-const workQueue = new Queue('work', REDIS_URL);
+const igQueue = new Queue('Get Instagram pictures and likes', REDIS_URL);
 
 server.use(cors());
 server.use(bodyParser.json());
@@ -31,8 +31,9 @@ server.get("/", (req, res) => {
 });
 
 server.get("/api/max9/", async (req, res) => {
-  const job = await workQueue.add();
-  res.json({ id: job.id })
+  const job = await igQueue.add(req.headers.id);
+  res.json(job)
+  // res.json({ id: job.id, success: true});
   // console.log(req.headers.access_token)
   // const userPosts = await functions.getAllUserPosts(req.headers.access_token);
   // console.log(userPosts);
