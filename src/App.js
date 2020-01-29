@@ -58,8 +58,9 @@ const App = () => {
         getLongLivedAccessToken();
       })
       .then(async () => {
+        const user_id = localStorage.getItem("user_id");
         const access_token = localStorage.getItem("access_token");
-        getPictures(access_token);
+        getPictures(user_id, access_token);
       })
       .catch(function(error) {
         console.log(error);
