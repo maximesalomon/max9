@@ -74,9 +74,7 @@ const App = () => {
         access_token: access_token
       })
       .then(async res => {
-        console.log(res.job_id)
-        getPictures(res.job_id)
-        console.log(res);
+        getPictures(res.data.job_id)
       })
       .catch(err => {
         console.log(err);
