@@ -60,22 +60,34 @@ const App = () => {
       .then(async () => {
         const user_id = localStorage.getItem("user_id");
         const access_token = localStorage.getItem("access_token");
-        getPictures(user_id, access_token);
+        postPictures(user_id, access_token);
       })
       .catch(function(error) {
         console.log(error);
       });
   };
 
-  const getPictures = (user_id, access_token) => {
+  const postPictures = (user_id, access_token) => {
     axios
       .post("http://localhost:7000/api/max9", {
-          user_id: user_id,
-          access_token: access_token
-        }
-      )
+        user_id: user_id,
+        access_token: access_token
+      })
       .then(async res => {
-        // setPictures(res.data);
+        getPictures(res.job_id)
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  const getPictures = (job_id) => {
+    axios
+      .get(`http://localhost:7000/api/max9/${job_id}`)
+      .then(async res => {
+        alert('YES')
+        setPictures(res.data)
         console.log(res);
       })
       .catch(err => {
@@ -106,7 +118,7 @@ const App = () => {
     const access_token = localStorage.getItem("access_token");
     if (access_token) {
       setLoggedIn(true);
-      getPictures(user_id, access_token);
+      postPictures(user_id, access_token);
     } else {
       getAccesToken();
     }

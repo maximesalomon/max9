@@ -37,7 +37,7 @@ const getNextUserPosts = url => {
           userLikes.push(res.data.data);
           resolve(getNextUserPosts(res.data.paging.next));
         } else {
-          console.log(userLikes);
+          // console.log(userLikes);
           resolve(userLikes.flat())
         }
       })

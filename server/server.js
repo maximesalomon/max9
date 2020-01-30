@@ -4,7 +4,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 require('dotenv').config()
 
-// const functions = require("./functions");
+const functions = require("./functions");
 
 const server = express();
 
@@ -31,50 +31,31 @@ server.get("/", (req, res) => {
 });
 
 server.post("/api/max9/", async (req, res) => {
-  const job = await igQueue.add({data: {user_id: req.headers.user_id, access_token: req.headers.access_token}})
-  res.json(job.data);
-  // console.log(req.headers.access_token)
-  // const userPosts = await functions.getAllUserPosts(req.headers.access_token);
-  // console.log(userPosts);
-  // const userPostsLikes = await functions.getUserLikes(userPosts);
-  // console.log(userPostsLikes);
-  // const userPostsWithLikes = await userPosts.map(pic => {
-  //   let temp = userPostsLikes.find(like => like.url === pic.permalink);
-    // console.log(temp)
-  //   if (temp) {
-  //     pic.permalink = temp.url;
-  //     pic.likes = temp.likes_count;
-  //     pic.wiews_count = temp.views_count;
-  //   }
-  //   return pic;
-  // });
-  // await functions.emptyUserLikes()
-  // res.status(200).json(userPostsWithLikes);
+  const job = igQueue.add({access_token: req.body.access_token})
+  const userPosts = await functions.getAllUserPosts(req.body.access_token);
+  res.status(200).json({job_id: job.id, user_posts_length: userPosts.length});
 });
 
-// server.get("/api/max9/", async (req, res) => {
-//   const job = await igQueue.add({data: {user_id: req.headers.user_id, access_token: req.headers.access_token}})
-//   res.json(job.data);
-//   // console.log(req.headers.access_token)
-//   // const userPosts = await functions.getAllUserPosts(req.headers.access_token);
-//   // console.log(userPosts);
-//   // const userPostsLikes = await functions.getUserLikes(userPosts);
-//   // console.log(userPostsLikes);
-//   // const userPostsWithLikes = await userPosts.map(pic => {
-//   //   let temp = userPostsLikes.find(like => like.url === pic.permalink);
-//     // console.log(temp)
-//   //   if (temp) {
-//   //     pic.permalink = temp.url;
-//   //     pic.likes = temp.likes_count;
-//   //     pic.wiews_count = temp.views_count;
-//   //   }
-//   //   return pic;
-//   // });
-//   // await functions.emptyUserLikes()
-//   // res.status(200).json(userPostsWithLikes);
-// });
+server.get("/api/max9/:id", async (req, res) => {
 
-igQueue.process(async (job, done) => {
-  console.log(job)
-  done()
+});
+
+igQueue.process(async (job) => {
+  console.log(`Worker is running ${job.id}`)
+  const userPosts = await functions.getAllUserPosts(job.data.access_token);
+  // console.log(userPosts);
+  const userPostsLikes = await functions.getUserLikes(userPosts);
+  // console.log(userPostsLikes);
+  const userPostsWithLikes = await userPosts.map(pic => {
+    let temp = userPostsLikes.find(like => like.url === pic.permalink);
+    if (temp) {
+      pic.permalink = temp.url;
+      pic.likes = temp.likes_count;
+      pic.wiews_count = temp.views_count;
+    }
+    return pic;
+  });
+  functions.emptyUserLikes()
+  // console.log(userPostsWithLikes)
+  return userPostsWithLikes
 });
