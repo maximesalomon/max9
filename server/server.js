@@ -52,20 +52,20 @@ server.get("/api/max9/:id", async (req, res) => {
 
 igQueue.process(async (job) => {
   console.log(`Worker is running ${job.id}`)
-  // const userPosts = await functions.getAllUserPosts(job.data.access_token);
-  // // console.log(userPosts);
-  // const userPostsLikes = await functions.getUserLikes(userPosts);
-  // // console.log(userPostsLikes);
-  // const userPostsWithLikes = await userPosts.map(pic => {
-  //   let temp = userPostsLikes.find(like => like.url === pic.permalink);
-  //   if (temp) {
-  //     pic.permalink = temp.url;
-  //     pic.likes = temp.likes_count;
-  //     pic.wiews_count = temp.views_count;
-  //   }
-  //   return pic;
-  // });
-  // functions.emptyUserLikes()
-  // // console.log(userPostsWithLikes)
-  // return userPostsWithLikes
+  const userPosts = await functions.getAllUserPosts(job.data.access_token);
+  // console.log(userPosts);
+  const userPostsLikes = await functions.getUserLikes(userPosts);
+  // console.log(userPostsLikes);
+  const userPostsWithLikes = await userPosts.map(pic => {
+    let temp = userPostsLikes.find(like => like.url === pic.permalink);
+    if (temp) {
+      pic.permalink = temp.url;
+      pic.likes = temp.likes_count;
+      pic.wiews_count = temp.views_count;
+    }
+    return pic;
+  });
+  functions.emptyUserLikes()
+  // console.log(userPostsWithLikes)
+  return userPostsWithLikes
 });
