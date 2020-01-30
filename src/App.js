@@ -87,13 +87,13 @@ const App = () => {
     axios
       .get(`http://localhost:7000/api/max9/${job_id}`)
       .then(async res => {
-        if(res.data.state === "waiting" || "active") {
+        if(res.data.state === "completed") {
+          setPictures(res.data.returnvalue)
+          console.log(res.data.returnvalue)
+        } else {
           await delay(10000);
           getPictures(parseInt(res.data.id));
-        } else {
-          setPictures(res.data.returnvalue)
-        }
-      })
+        }})
       .catch(err => {
         console.log(err);
       });

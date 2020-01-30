@@ -2,9 +2,28 @@ const axios = require("axios");
 const puppeteer = require("puppeteer");
 const scrapers = require("./scrapers");
 
-const userLikes = [];
-
 const getAllUserPosts = access_token => {
+  const userLikes = [];
+
+  const getNextUserPosts = url => {
+    return new Promise(resolve => {
+      axios
+        .get(url)
+        .then(res => {
+          if (res.data.paging.next) {
+            userLikes.push(res.data.data);
+            resolve(getNextUserPosts(res.data.paging.next));
+          } else {
+            // console.log(userLikes);
+            resolve(userLikes.flat())
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    });
+  };
+
   return new Promise(resolve => {
     axios
       .get("https://graph.instagram.com/me/media", {
@@ -28,26 +47,8 @@ const getAllUserPosts = access_token => {
   });
 };
 
-const getNextUserPosts = url => {
-  return new Promise(resolve => {
-    axios
-      .get(url)
-      .then(res => {
-        if (res.data.paging.next) {
-          userLikes.push(res.data.data);
-          resolve(getNextUserPosts(res.data.paging.next));
-        } else {
-          // console.log(userLikes);
-          resolve(userLikes.flat())
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  });
-};
-
 const getUserLikes = async user_pictures => {
+  const userLikes = []
   const browser = await puppeteer.launch({
     headless: true
   });
@@ -80,13 +81,7 @@ const getUserLikes = async user_pictures => {
   return userLikes;
 };
 
-const emptyUserLikes = () => {
-  userLikes.length = 0
-  return
-}
-
 module.exports = {
   getAllUserPosts,
-  getUserLikes,
-  emptyUserLikes
+  getUserLikes
 };
