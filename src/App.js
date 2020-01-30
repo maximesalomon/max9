@@ -88,7 +88,7 @@ const App = () => {
       .get(`http://localhost:7000/api/max9/${job_id}`)
       .then(async res => {
         if(res.data.state === "waiting" || "active") {
-          await delay(5000);
+          await delay(10000);
           getPictures(parseInt(res.data.id));
         } else {
           setPictures(res.data.returnvalue)
