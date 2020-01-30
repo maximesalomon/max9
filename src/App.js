@@ -85,7 +85,7 @@ const App = () => {
     axios
       .get(`http://localhost:7000/api/max9/${job_id}`)
       .then(async res => {
-        if(res.data.state === "active") {
+        if(res.data.state === "waiting") {
           setTimeout(() => getPictures(parseInt(res.data.id), 1000));
         } else {
           setPictures(res.data.returnvalue)
