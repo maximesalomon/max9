@@ -26,10 +26,6 @@ server.listen(PORT, () =>
   console.log(`Server running on http://localhost:${PORT}`)
 );
 
-server.get("/", (req, res) => {
-  res.send("Hello from Express");
-});
-
 server.post("/api/max9/", async (req, res) => {
   let job = await igQueue.add({access_token: req.body.access_token})
   const userPosts = await functions.getAllUserPosts(req.body.access_token);
@@ -68,5 +64,6 @@ igQueue.process(async (job) => {
   });
   console.log('All userPostsWithLikes');
   console.log(userPostsWithLikes)
-  return userPostsWithLikes
+  const max9 = userPostsWithLikes.sort((a, b) => (parseInt(a.likes) < parseInt(b.likes) ? 1 : -1)).slice(0, 9)
+  return max9
 });

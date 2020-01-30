@@ -74,7 +74,7 @@ const App = () => {
         access_token: access_token
       })
       .then(async res => {
-        getPictures(res.data.job_id)
+        getPictures(res.data.job_id);
       })
       .catch(err => {
         console.log(err);
@@ -83,17 +83,18 @@ const App = () => {
 
   const delay = ms => new Promise(res => setTimeout(res, ms));
 
-  const getPictures = (job_id) => {
+  const getPictures = job_id => {
     axios
       .get(`http://localhost:7000/api/max9/${job_id}`)
       .then(async res => {
-        if(res.data.state === "completed") {
-          setPictures(res.data.returnvalue)
-          console.log(res.data.returnvalue)
+        if (res.data.state === "completed") {
+          setPictures(res.data.returnvalue);
+          console.log(res.data.returnvalue);
         } else {
-          await delay(10000);
+          await delay(30000);
           getPictures(parseInt(res.data.id));
-        }})
+        }
+      })
       .catch(err => {
         console.log(err);
       });
@@ -149,27 +150,24 @@ const App = () => {
         </Max9>
         {loggedIn && loggedIn ? (
           <Pics>
-            {pictures
-              .sort((a, b) => (parseInt(a.likes) < parseInt(b.likes) ? 1 : -1))
-              .slice(0, 9)
-              .map(pic => {
-                return (
-                  <Pic>
-                    <a key={pic.id} href={pic.permalink}>
-                      <img
-                        width="200"
-                        height="200"
-                        src={
-                          pic.media_type === "IMAGE" || "CAROUSEL_ALBUM"
-                            ? pic.media_url
-                            : pic.thumbnail_url
-                        }
-                        alt={pic.caption}
-                      />
-                    </a>
-                  </Pic>
-                );
-              })}
+            {pictures.map(pic => {
+              return (
+                <Pic>
+                  <a key={pic.id} href={pic.permalink}>
+                    <img
+                      width="200"
+                      height="200"
+                      src={
+                        pic.media_type === "IMAGE" || "CAROUSEL_ALBUM"
+                          ? pic.media_url
+                          : pic.thumbnail_url
+                      }
+                      alt={pic.caption}
+                    />
+                  </a>
+                </Pic>
+              );
+            })}
             <button onClick={() => deleteUserAuth()}>Logout</button>
           </Pics>
         ) : (
