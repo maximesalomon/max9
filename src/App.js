@@ -81,12 +81,15 @@ const App = () => {
       });
   };
 
+  const delay = ms => new Promise(res => setTimeout(res, ms));
+
   const getPictures = (job_id) => {
     axios
       .get(`http://localhost:7000/api/max9/${job_id}`)
       .then(async res => {
         if(res.data.state === "waiting" || "active") {
-          setTimeout(() => getPictures(parseInt(res.data.id), 10000));
+          await delay(5000);
+          getPictures(parseInt(res.data.id));
         } else {
           setPictures(res.data.returnvalue)
         }
