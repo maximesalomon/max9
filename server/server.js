@@ -31,9 +31,9 @@ server.get("/", (req, res) => {
 });
 
 server.post("/api/max9/", async (req, res) => {
-  const job = igQueue.add({access_token: req.body.access_token})
+  let job = await igQueue.add({access_token: req.body.access_token})
   const userPosts = await functions.getAllUserPosts(req.body.access_token);
-  res.status(200).json({job_id: job.id, user_posts_length: userPosts.length});
+  res.status(200).json({job_id: parseInt(job.id), user_posts_length: userPosts.length});
 });
 
 server.get("/api/max9/:id", async (req, res) => {

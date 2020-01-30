@@ -74,6 +74,7 @@ const App = () => {
         access_token: access_token
       })
       .then(async res => {
+        console.log(res.job_id)
         getPictures(res.job_id)
         console.log(res);
       })
