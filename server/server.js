@@ -37,7 +37,16 @@ server.post("/api/max9/", async (req, res) => {
 });
 
 server.get("/api/max9/:id", async (req, res) => {
-
+  const id = req.params.id;
+  const job = await igQueue.getJob(id);
+  if (job === null) {
+    res.status(404).end();
+  } else {
+    let state = await job.getState();
+    let progress = job._progress;
+    let reason = job.failedReason;
+    res.json({ id, state, progress, reason });
+  }
 });
 
 igQueue.process(async (job) => {

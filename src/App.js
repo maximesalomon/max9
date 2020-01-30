@@ -86,7 +86,7 @@ const App = () => {
       .get(`http://localhost:7000/api/max9/${job_id}`)
       .then(async res => {
         alert('YES')
-        setPictures(res.data)
+        // setPictures(res.data)
         console.log(res);
       })
       .catch(err => {
