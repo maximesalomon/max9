@@ -1,8 +1,8 @@
 const express = require("express");
-let Queue = require('bull');
+let Queue = require("bull");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-require('dotenv').config()
+require("dotenv").config();
 
 const functions = require("./functions");
 
@@ -10,9 +10,9 @@ const server = express();
 
 const PORT = process.env.PORT;
 
-let REDIS_URL = process.env.REDIS_URL || 'redis://127.0.0.1:6379';
+let REDIS_URL = process.env.REDIS_URL || "redis://127.0.0.1:6379";
 
-const igQueue = new Queue('Instagram', REDIS_URL);
+const igQueue = new Queue("Instagram", REDIS_URL);
 
 server.use(cors());
 server.use(bodyParser.json());
@@ -27,9 +27,11 @@ server.listen(PORT, () =>
 );
 
 server.post("/api/max9/", async (req, res) => {
-  let job = await igQueue.add({access_token: req.body.access_token})
+  let job = await igQueue.add({ access_token: req.body.access_token });
   const userPosts = await functions.getAllUserPosts(req.body.access_token);
-  res.status(200).json({job_id: parseInt(job.id), user_posts_length: userPosts.length});
+  res
+    .status(200)
+    .json({ job_id: parseInt(job.id), user_posts_length: userPosts.length });
 });
 
 server.get("/api/max9/:id", async (req, res) => {
@@ -46,13 +48,13 @@ server.get("/api/max9/:id", async (req, res) => {
   }
 });
 
-igQueue.process(7, async (job) => {
-  console.log(job)
-  console.log(`Worker is running ${job.id}`)
+igQueue.process(7, async job => {
+  console.log(job);
+  console.log(`Worker is running ${job.id}`);
   const userPosts = await functions.getAllUserPosts(job.data.access_token);
-  console.log('Retrieved all userPosts');
+  console.log("Retrieved all userPosts");
   const userPostsLikes = await functions.getUserLikes(userPosts);
-  console.log('Retrieved all userPostsLikes');
+  console.log("Retrieved all userPostsLikes");
   console.log(userPostsLikes);
   const userPostsWithLikes = await userPosts.map(pic => {
     let temp = userPostsLikes.find(like => like.url === pic.permalink);
@@ -63,11 +65,13 @@ igQueue.process(7, async (job) => {
     }
     return pic;
   });
-  console.log('All userPostsWithLikes');
-  console.log(userPostsWithLikes)
-  const max9 = userPostsWithLikes.sort((a, b) => (parseInt(a.likes) < parseInt(b.likes) ? 1 : -1)).slice(0, 9)
-  return max9
-})
+  console.log("All userPostsWithLikes");
+  console.log(userPostsWithLikes);
+  const max9 = userPostsWithLikes
+    .sort((a, b) => (parseInt(a.likes) < parseInt(b.likes) ? 1 : -1))
+    .slice(0, 9);
+  return max9;
+});
 
 // .on('completed', (job, result) => {
 //   // Job completed with output result!
