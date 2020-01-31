@@ -46,7 +46,8 @@ server.get("/api/max9/:id", async (req, res) => {
   }
 });
 
-igQueue.process(async (job) => {
+igQueue.process(7, async (job) => {
+  console.log(job)
   console.log(`Worker is running ${job.id}`)
   const userPosts = await functions.getAllUserPosts(job.data.access_token);
   console.log('Retrieved all userPosts');
@@ -66,4 +67,8 @@ igQueue.process(async (job) => {
   console.log(userPostsWithLikes)
   const max9 = userPostsWithLikes.sort((a, b) => (parseInt(a.likes) < parseInt(b.likes) ? 1 : -1)).slice(0, 9)
   return max9
-});
+})
+
+// .on('completed', (job, result) => {
+//   // Job completed with output result!
+// })
