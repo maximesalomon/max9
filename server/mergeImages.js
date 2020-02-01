@@ -2,7 +2,7 @@ const mergeImages = require('merge-images');
 const Canvas = require('canvas');
 
 const max9MergeImages = (result) => {
-    mergeImages([
+    return mergeImages([
       { src: result[0].media_url, x: 0, y: 0 }
     ],{
         Canvas: Canvas
