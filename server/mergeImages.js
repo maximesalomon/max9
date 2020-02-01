@@ -7,8 +7,14 @@ const emojiMergeImages = result => {
   return mergeImages(['./body.png', './eyes.png', './mouth.png'], {
     Canvas: Canvas
   })
-  .then(img => fs.writeFile(img, 'emoji.png')) // TODO
+  .then(base64Str => {
+    const img = base64Str.split(';base64,').pop();
+    fs.writeFile('emoji.png', img, {encoding: 'base64'}, function(err) {
+    console.log('File created');
+  })}) // DONE
 }
+
+
 
 const max9MergeImages = result => {
   return mergeImages([{ src: result[0].media_url, x: 0, y: 0 }], {
