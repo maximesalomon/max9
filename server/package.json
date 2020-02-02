@@ -24,6 +24,7 @@
     "merge-images": "^1.1.0",
     "nodemon": "^2.0.2",
     "puppeteer": "^2.1.0",
+    "sharp": "^0.24.0",
     "throng": "^4.0.0"
   }
 }

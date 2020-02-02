@@ -1,24 +1,32 @@
 const mergeImages = require("merge-images");
-const fs = require('fs');
+const fs = require("fs");
 const { Canvas, Image } = require("canvas");
 Canvas.Image = Image;
-
-const emojiMergeImages = result => {
-  return mergeImages(['./body.png', './eyes.png', './mouth.png'], {
-    Canvas: Canvas
-  })
-  .then(base64Str => {
-    const img = base64Str.split(';base64,').pop();
-    fs.writeFile('emoji.png', img, {encoding: 'base64'}, function(err) {
-    console.log('File created');
-  })}) // DONE
-}
-
-
+const sharp = require('sharp');
 
 const max9MergeImages = result => {
-  return mergeImages([{ src: result[0].media_url, x: 0, y: 0 }], {
-    Canvas: Canvas
+  return mergeImages(
+    [
+      { src: result[0].media_url, x: 0, y: 0 },
+      { src: result[1].media_url, x: 600, y: 0 },
+      { src: result[2].media_url, x: 1200, y: 0 },
+      { src: result[3].media_url, x: 0, y: 600 },
+      { src: result[4].media_url, x: 600, y: 600 },
+      { src: result[5].media_url, x: 1200, y: 600 },
+      { src: result[6].media_url, x: 0, y: 1200 },
+      { src: result[7].media_url, x: 600, y: 1200 },
+      { src: result[8].media_url, x: 1200, y: 1200 }
+    ],
+    {
+      width: 1800,
+      height: 1800,
+      Canvas: Canvas
+    }
+  ).then(base64Str => {
+    const img = base64Str.split(";base64,").pop();
+    fs.writeFile("max9.png", img, { encoding: "base64" }, err => {
+      console.log("File created");
+    });
   });
 };
 
@@ -118,4 +126,3 @@ const result = [
 ];
 
 max9MergeImages(result);
-emojiMergeImages()
