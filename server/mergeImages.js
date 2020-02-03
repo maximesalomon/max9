@@ -4,18 +4,22 @@ const { Canvas, Image } = require("canvas");
 Canvas.Image = Image;
 const sharp = require('sharp');
 
-const max9MergeImages = result => {
-  return mergeImages(
+const max9MergeImages = async result => {
+  const resizedImages = await result.map(img => {
+    return sharp(img.media_url).resize(600, 600)
+  })
+  console.log(resizedImages);
+  await mergeImages(
     [
-      { src: result[0].media_url, x: 0, y: 0 },
-      { src: result[1].media_url, x: 600, y: 0 },
-      { src: result[2].media_url, x: 1200, y: 0 },
-      { src: result[3].media_url, x: 0, y: 600 },
-      { src: result[4].media_url, x: 600, y: 600 },
-      { src: result[5].media_url, x: 1200, y: 600 },
-      { src: result[6].media_url, x: 0, y: 1200 },
-      { src: result[7].media_url, x: 600, y: 1200 },
-      { src: result[8].media_url, x: 1200, y: 1200 }
+      { src: resizedImages[0], x: 0, y: 0 },
+      { src: resizedImages[1], x: 600, y: 0 },
+      { src: resizedImages[2], x: 1200, y: 0 },
+      { src: resizedImages[3], x: 0, y: 600 },
+      { src: resizedImages[4], x: 600, y: 600 },
+      { src: resizedImages[5], x: 1200, y: 600 },
+      { src: resizedImages[6], x: 0, y: 1200 },
+      { src: resizedImages[7], x: 600, y: 1200 },
+      { src: resizedImages[8], x: 1200, y: 1200 }
     ],
     {
       width: 1800,
@@ -23,6 +27,7 @@ const max9MergeImages = result => {
       Canvas: Canvas
     }
   ).then(base64Str => {
+    console.log("3");
     const img = base64Str.split(";base64,").pop();
     fs.writeFile("max9.png", img, { encoding: "base64" }, err => {
       console.log("File created");
